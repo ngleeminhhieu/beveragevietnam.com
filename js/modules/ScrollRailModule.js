@@ -1,9 +1,9 @@
-// Pinned horizontal rails. Both the service-page milestone strip and the
-// homepage reasons strip work the same way -- a tall section, a sticky pin, and
-// a track whose offset is driven by how far the page has scrolled through it --
-// so they share one implementation and differ only in their variable prefix.
+// Pinned horizontal rail: a tall section, a sticky pin, and a track whose offset
+// is driven by how far the page has scrolled through it. The service-page
+// milestone strip used to share this; it is a vertical timeline now, so only the
+// reasons strip is left -- the loop stays because the shape is worth keeping if a
+// second rail ever returns.
 const RAILS = [
-  { track: ".mileTrackJS", section: ".sec-mile", prefix: "mile" },
   { track: ".whyTrackJS", section: ".sec-why", prefix: "why" },
 ];
 

@@ -14,20 +14,17 @@ import CatalogFiltersModule from "./modules/CatalogFiltersModule.js";
 import ProductContentModule from "./modules/ProductContentModule.js";
 import ProductRelatedModule from "./modules/ProductRelatedModule.js";
 import ContactModule from "./modules/ContactModule.js";
-import BlogRelatedModule from "./modules/BlogRelatedModule.js";
 import BrandPopupModule from "./modules/BrandPopupModule.js";
 import AwardsModule from "./modules/AwardsModule.js";
 import HistoryModule from "./modules/HistoryModule.js";
 import StoryGalleryModule from "./modules/StoryGalleryModule.js";
 import ProcessModule from "./modules/ProcessModule.js";
-import FlowModule from "./modules/FlowModule.js";
 import ScrollRailModule from "./modules/ScrollRailModule.js";
 import TypeCycleModule from "./modules/TypeCycleModule.js";
 import PackagingModule from "./modules/PackagingModule.js";
 import FaqModule from "./modules/FaqModule.js";
 import ContentTableModule from "./modules/ContentTableModule.js";
 import BlogTocModule from "./modules/BlogTocModule.js";
-import PaginationModule from "./modules/PaginationModule.js";
 
 const initTemplateUtilities = () => {
   document.querySelector(".backToTopJS")?.addEventListener("click", () => {
@@ -162,20 +159,17 @@ const init = () => {
     ProductContentModule,
     ProductRelatedModule,
     ContactModule,
-    BlogRelatedModule,
     BrandPopupModule,
     AwardsModule,
     HistoryModule,
     StoryGalleryModule,
     ProcessModule,
-    FlowModule,
     ScrollRailModule,
     TypeCycleModule,
     PackagingModule,
     FaqModule,
     ContentTableModule,
     BlogTocModule,
-    PaginationModule,
   ].forEach((module) => {
     try {
       module();
