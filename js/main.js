@@ -1,4 +1,3 @@
-import PreloaderModule from "./modules/PreloaderModule.js";
 import HeaderModule from "./modules/HeaderModule.js";
 import HeaderActionsModule from "./modules/HeaderActionsModule.js";
 import MobileModule from "./modules/MobileModule.js";
@@ -48,7 +47,6 @@ const initHeroSlider = () => {
   const slideCount = slider.querySelectorAll(".swiper-slide").length;
   const autoplayDelay = 6000;
   const autoplayEnabled = slideCount > 1;
-  const welcomeIsActive = Boolean(document.querySelector(".welcome-screen:not(.is-done)"));
   const desktopHero = window.matchMedia("(min-width: 1441px)");
   let heroSwiper;
   let heroResizeFrame;
@@ -123,13 +121,6 @@ const initHeroSlider = () => {
     },
   });
 
-  if (autoplayEnabled && welcomeIsActive) {
-    heroSwiper.autoplay.stop();
-    document.addEventListener("welcome:dismissed", () => {
-      heroSwiper.autoplay.start();
-    }, { once: true });
-  }
-
   window.addEventListener("resize", requestHeroResize, { passive: true });
   window.visualViewport?.addEventListener("resize", requestHeroResize, { passive: true });
   desktopHero.addEventListener("change", requestHeroResize);
@@ -139,7 +130,6 @@ const initHeroSlider = () => {
 // used to take down every module queued after it.
 const init = () => {
   [
-    PreloaderModule,
     HeaderModule,
     HeaderActionsModule,
     MobileModule,

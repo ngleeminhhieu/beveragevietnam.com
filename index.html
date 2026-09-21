@@ -13,41 +13,6 @@
 </head>
 
 <body>
-  <section class="welcome-screen preloader preloaderJS" role="dialog" aria-modal="true"
-    aria-labelledby="welcome-screen-title" aria-describedby="welcome-screen-description welcome-screen-instruction"
-    aria-busy="true" tabindex="-1">
-    <div class="welcome-screen__media" aria-hidden="true">
-      <video class="welcome-screen__video welcomeVideoJS" autoplay muted loop playsinline preload="auto"
-        disablepictureinpicture controlslist="nodownload noremoteplayback">
-        <source src="./assets/images/welcome-bg.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <a class="welcome-screen__brand welcomeBrandJS" href="./index.html" aria-label="صفحه اصلی RITA"
-      aria-hidden="true" tabindex="-1" inert>
-      <span class="welcome-screen__brand-mark" aria-hidden="true"></span>
-    </a>
-
-    <div class="welcome-screen__content welcomeContentJS" aria-hidden="true" inert>
-      <div class="welcome-screen__copy">
-        <h2 class="welcome-screen__title t-48" id="welcome-screen-title"><span>به دنیای</span> <bdi>RITA
-            BEVERAGE</bdi></h2>
-        <p class="welcome-screen__description" id="welcome-screen-description">شرکت پیشرو ویتنام در تولید نوشیدنی بر پایه استانداردهای <bdi>OEM/ODM</bdi>، از آبمیوه‌های استوایی تا نوشیدنی‌های فراسودمند، با صادرات به بیش از ۲۰۰ بازار در سراسر جهان.</p>
-      </div>
-
-      <div class="welcome-screen__actions">
-        <p class="welcome-screen__scroll" id="welcome-screen-instruction">
-          <span>برای دیدن ادامه اسکرول کنید</span>
-          <img src="./assets/images/ic-dropdown.svg" alt="" aria-hidden="true">
-        </p>
-        <a class="btn pri" href="./products.html"><span class="txt"><span class="txt-inner">محصولات ما</span><img
-              class="btn__icon" src="./assets/images/ic-arrow.svg" alt="" aria-hidden="true"></span></a>
-        <a class="btn third" href="./our-story.html"><span class="txt"><span class="txt-inner">داستان ما</span><img
-              class="btn__icon" src="./assets/images/ic-arrow.svg" alt="" aria-hidden="true"></span></a>
-      </div>
-    </div>
-  </section>
-
   <header class="hd">
     <div class="hd-bar">
       <div class="hd-main">
@@ -1495,34 +1460,6 @@
   <script src="./assets/library/select2/select2.min.js"></script>
   <script src="./assets/library/fancybox/fancybox.umd.js"></script>
   <script src="./js/main.js" type="module"></script>
-  <script>
-    window.setTimeout(() => {
-      const welcome = document.querySelector(".preloaderJS");
-      if (!welcome) return;
-
-      const welcomeState = welcome.dataset.welcomeState;
-      if (
-        welcome.hidden
-        || welcome.classList.contains("is-done")
-        || ["ready", "leaving", "dismissed"].includes(welcomeState)
-      ) return;
-
-      document.dispatchEvent(new CustomEvent("welcome:force-dismiss"));
-      if (welcome.dataset.welcomeState === "dismissed") return;
-
-      welcome.dataset.welcomeState = "dismissed";
-      welcome.classList.add("is-done");
-      welcome.hidden = true;
-      welcome.inert = true;
-      welcome.setAttribute("aria-hidden", "true");
-      welcome.querySelector("video")?.pause();
-      document.documentElement.classList.remove("welcome-screen-active");
-      document.body.classList.remove("welcome-screen-active", "no-scroll");
-      [...document.body.children].forEach((element) => {
-        if (element !== welcome && element.tagName !== "SCRIPT") element.inert = false;
-      });
-    }, 8000);
-  </script>
 </body>
 
 </html>
