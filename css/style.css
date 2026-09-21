@@ -3405,7 +3405,7 @@ section:has(+ .sec-banner-cta) {
   margin-inline: auto;
   padding: 6rem clamp(2rem, 4vw, 6rem);
   direction: ltr;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   gap: 4rem;
 }
 
@@ -3459,9 +3459,9 @@ section:has(+ .sec-banner-cta) {
 }
 
 .banner-cta__content {
-  width: min(100%, 70rem);
+  width: min(100%, 80rem);
   align-self: center;
-  justify-self: end;
+  justify-self: start;
   direction: rtl;
   color: #ffffff;
   text-align: right;
@@ -3501,7 +3501,7 @@ section:has(+ .sec-banner-cta) {
 
 .banner-cta.is-pending .banner-cta__content {
   opacity: 0;
-  transform: translateX(5rem);
+  transform: translateX(-5rem);
 }
 
 @media screen and (max-width: 1440px) {
@@ -3513,7 +3513,7 @@ section:has(+ .sec-banner-cta) {
   .banner-cta__inner {
     display: flex;
     min-height: 0;
-    flex-direction: column-reverse;
+    flex-direction: column;
     gap: 3.2rem;
     padding-block: 4.8rem;
   }
