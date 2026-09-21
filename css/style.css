@@ -95,8 +95,8 @@
   --color-cream: #ede8e4;
   --line-width: 1px;
   --line-style: solid;
-  --color-line: rgba(51, 51, 51, 0.4);
-  --color-line-inverse: rgba(255, 255, 255, 0.4);
+  --color-line: rgba(51, 51, 51, 0.25);
+  --color-line-inverse: rgba(255, 255, 255, 0.25);
   --line: var(--line-width) var(--line-style) var(--color-line);
   --line-inverse: var(--line-width) var(--line-style) var(--color-line-inverse);
   --cl-bd: var(--color-line);
@@ -1171,33 +1171,16 @@ body.sticky .hd .hd-bar {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-content: start;
   gap: 1.6rem clamp(2.4rem, 2.86vw, 4rem);
-  counter-reset: mega-menu-item;
-}
-
-.hd-mega__item {
-  counter-increment: mega-menu-item;
 }
 
 .hd-mega__link {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 1.3rem;
   color: var(--color-text);
   font-weight: 600;
   text-transform: uppercase;
   transition: color 0.3s;
-}
-
-.hd-mega__link::before {
-  flex: 0 0 auto;
-  color: #bcbcbc;
-  content: counter(mega-menu-item, decimal-leading-zero);
-  font-family: "Poppins", Arial, sans-serif;
-  font-size: 1rem;
-  font-variant-numeric: tabular-nums;
-  font-weight: 400;
-  line-height: 1;
 }
 
 .burger {
@@ -1820,6 +1803,10 @@ body.sticky .hd .hd-bar {
   --grid-line: var(--color-line);
   display: grid;
   border-block-start: 1px solid var(--grid-line);
+}
+
+.cat-grid.is-brdinline-end,
+.prd-grid.is-brdinline-end {
   border-inline-start: 1px solid var(--grid-line);
 }
 
@@ -1903,92 +1890,6 @@ body.sticky .hd .hd-bar {
   flex-direction: column;
   background: #ffffff;
   color: #333333;
-}
-
-/* Promo cell: a lifestyle shot across two slots of the lattice, breaking the
-   run of white packshots. Spanning by grid slots rather than fixed sizes keeps
-   every rule in the lattice unbroken, and span counts are direction-agnostic
-   so RTL needs no mirroring. */
-.prd-card--promo {
-  grid-column: span 2;
-  grid-row: span 1;
-}
-
-/* Beats .prd-card>a, which would otherwise impose the packshot column layout. */
-.prd-card--promo > .prd-promo {
-  position: relative;
-  display: block;
-  height: 100%;
-  padding: 0.8rem;
-  overflow: hidden;
-  clip-path: inset(0.8rem);
-  background: #ffffff;
-}
-
-.prd-promo__img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* Gradient over the foot of the photo so the copy holds up on any shot. Inset
-   to match the frame, and the clip-path on the link trims it to the same edge. */
-.prd-promo__body {
-  position: absolute;
-  inset: auto 0.8rem 0.8rem;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.2rem;
-  padding: clamp(3.2rem, 5vw, 6rem) clamp(1.4rem, 1.5vw, 2rem) clamp(1.4rem, 1.5vw, 2rem);
-  background: linear-gradient(to top,
-      rgba(0, 0, 0, 0.8) 0%,
-      rgba(0, 0, 0, 0.42) 48%,
-      rgba(0, 0, 0, 0) 100%);
-  text-align: right;
-}
-
-.prd-promo__copy {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.prd-promo__desc {
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 1.3rem;
-  font-weight: 400;
-  line-height: 1.55;
-}
-
-.prd-promo__title {
-  color: #ffffff;
-  font-size: clamp(1.6rem, 1.3vw, 2rem);
-  font-weight: 700;
-  line-height: 1.35;
-}
-
-.prd-promo .btn--icon {
-  flex-shrink: 0;
-}
-
-.prd-promo .btn__icon {
-  transform: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .prd-promo:hover .prd-promo__img {
-    transform: scale(1.04);
-  }
-
-  .prd-promo:hover .btn--icon {
-    --btn-background: var(--color-text);
-  }
-
 }
 
 .prd-pic {
@@ -2111,11 +2012,18 @@ body.sticky .hd .hd-bar {
   }
 }
 
+/* The min-height holds two lines so every card's name block is the same depth
+   whatever the name. A one-line name then has that second line's worth of room
+   under it, so the content is centred in the box rather than left sitting at the
+   top of it. Grid rather than a bare align-content: the box has two children --
+   the category line and the name -- and this stacks them as rows. */
 .prd-name {
   --prd-name-gap: clamp(1.2rem, 1.5vw, 2.2rem);
   --prd-name-pad-inline: clamp(1.2rem, 1.5vw, 2.2rem);
+  display: grid;
   min-height: calc(2 * 1.45em + 2.2rem + var(--prd-name-gap) * 2 - var(--prd-pic-pad));
   padding: calc(var(--prd-name-gap) - var(--prd-pic-pad)) var(--prd-name-pad-inline) var(--prd-name-gap);
+  align-content: center;
   border-block-start: 1px solid var(--grid-line);
   color: inherit;
   font-weight: 700;
@@ -2152,10 +2060,6 @@ body.sticky .hd .hd-bar {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .prd-card--promo > .prd-promo {
-    height: auto;
-    aspect-ratio: 16 / 10;
-  }
 }
 
 @media screen and (max-width: 767px) {
@@ -2202,16 +2106,6 @@ body.sticky .hd .hd-bar {
     --prd-name-pad-inline: 0.7rem;
   }
 
-  .prd-promo .btn--icon {
-    width: 5.6rem;
-    min-height: 5.6rem;
-  }
-
-  .prd-promo .btn__icon {
-    width: 24px;
-    height: 20px;
-    flex: 0 0 24px;
-  }
 }
 
 @media all {
@@ -2422,9 +2316,11 @@ body.sticky .hd .hd-bar {
   }
 }
 
-/* Reasons rail. Same pinned-track mechanic as .sec-mile on the service pages
-   -- the section is tall, .why__pin sticks, and ScrollRailModule maps the
-   scroll through it onto --why-x -- but the cards here are photo tiles. */
+/* Reasons: a heading row across the top and the cards three across under it,
+   over the dot map. It was a pinned horizontal rail before -- a tall section,
+   a sticky panel and ScrollRailModule mapping page scroll onto --why-x. The
+   grid replaces all of it, so the section is as tall as its contents and the
+   module is gone. */
 .sec-why {
   scroll-margin-block-start: var(--rtl-navbar-h);
   --why-line: var(--color-line);
@@ -2432,32 +2328,18 @@ body.sticky .hd .hd-bar {
   --why-lit: var(--color-pri);
   --why-map-h: 62%;
   --why-pad: clamp(2rem, 4vw, 8rem);
-  /* Capped against the viewport height too: the photo's height follows this
-     width, so a wide card on a short laptop would outgrow the pinned panel. */
-  --why-card-w: min(clamp(34rem, 38vw, 54rem), 64svh);
   position: relative;
-  height: calc(var(--why-count, 1) * 46svh);
   border-block-end: 1px solid var(--why-line);
   background: #ffffff;
 }
 
-/* Centres the track itself, so the track can be content-height and let the
-   cards size each other instead of everything being stretched to the viewport. */
 .why__pin {
-  position: sticky;
-  top: 0;
-  display: flex;
-  height: 100svh;
-  flex-direction: column;
-  justify-content: center;
-  overflow: hidden;
-  background: #ffffff;
+  position: relative;
+  padding-block: clamp(3.2rem, 5vw, 6rem);
 }
 
-/* Same dot field as the service pages, but carried as an external mask instead
-   of 6552 inline circles -- the homepage keeps its HTML small and the file is
-   fetched once and cached. The mask sits on the parent so the sweep underneath
-   can travel without dragging the dots along with it. */
+/* The map is the section's own backdrop; the cards are opaque and keep --why-gap
+   between them, so it shows through the gaps and around the edges. */
 .why-map {
   position: absolute;
   z-index: 0;
@@ -2483,42 +2365,34 @@ body.sticky .hd .hd-bar {
   opacity: 0.2;
 }
 
-/* Peak rides from the right edge to the left as the cards advance. */
+/* Parked at one end now that no scroll progress drives it. */
 .why-map__sweep {
   position: absolute;
   inset: 0;
   background: linear-gradient(to right,
       transparent 0%,
-      var(--why-lit) 50%,
+      var(--why-lit) 45%,
+      var(--why-lit) 55%,
       transparent 100%);
   opacity: 0.85;
-  transform: translateX(calc((1 - var(--why-progress, 0)) * 100% - 50%));
+  transform: translateX(-50%);
 }
 
-/* max-content in an RTL box starts flush right, so a positive shift walks the
-   track forward and the cards arrive from the left. */
 .why__track {
   position: relative;
   z-index: 1;
-  display: flex;
-  width: max-content;
-  height: auto;
-  align-items: stretch;
+  display: grid;
   padding-inline: var(--why-pad);
   gap: var(--why-gap);
-  transform: translateX(var(--why-x, 0px));
-  will-change: transform;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-/* The heading is the first panel of the track, so it slides away with it. It is
-   sized to its own copy rather than the viewport, which keeps the first card
-   close instead of parking it a full screen away. */
+/* The heading reads as a heading: its own full-width row above the cards.
+   1 / -1 holds at every breakpoint, so the steps below need no override. */
 .why__intro {
   display: flex;
-  width: min(68rem, calc(var(--why-view, 100vw) - var(--why-pad) * 2));
   flex-direction: column;
-  flex-shrink: 0;
-  justify-content: center;
+  grid-column: 1 / -1;
   text-align: right;
 }
 
@@ -2534,21 +2408,13 @@ body.sticky .hd .hd-bar {
   line-height: 1.8;
 }
 
-.why__hint {
-  display: none;
-}
-
 /* Wider than the milestone cards so the photo reads as a landscape frame
    rather than a tall strip. The photo sits above the plate in flow rather than
    behind it, so it can keep its own proportions instead of being cropped. */
 .why-card {
   display: flex;
-  width: var(--why-card-w);
-  /* Photo keeps its own ratio and the copy below takes only what it needs; the
-     row's stretch then levels every card against the wordiest one. */
-  height: auto;
+  min-width: 0;
   flex-direction: column;
-  flex-shrink: 0;
   overflow: hidden;
   border: 1px solid var(--why-line);
   background: #ffffff;
@@ -2575,8 +2441,7 @@ body.sticky .hd .hd-bar {
 }
 
 /* No height of its own: the row stretches every card to the tallest one, and
-   this fills whatever the photo leaves. That tallest card is sized by its own
-   copy, so nothing is padded out to match the photo. */
+   this fills whatever the photo leaves. */
 .why-card__plate {
   display: flex;
   padding: clamp(1.8rem, 2vw, 2.6rem);
@@ -2600,10 +2465,6 @@ body.sticky .hd .hd-bar {
   line-height: 1.65;
 }
 
-.why__progress {
-  display: none;
-}
-
 @media all {
   .why-card:hover .why-card__media {
     transform: scale(1.04);
@@ -2611,135 +2472,14 @@ body.sticky .hd .hd-bar {
 }
 
 @media screen and (max-width: 1440px) {
-  /* Unpinned: the track becomes a plain sideways scroller. */
-  .sec-why {
-    height: auto;
-  }
-
-  .why__pin {
-    position: static;
-    height: auto;
-    padding-block: clamp(3.2rem, 5vw, 6rem);
-  }
-
-  .why-map {
-    height: 72%;
-  }
-
   .why__track {
-    width: auto;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-padding-inline: var(--why-pad);
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    transform: none;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .why__intro,
-  .why-card {
-    scroll-snap-align: start;
-  }
-
-  .why__track::-webkit-scrollbar {
-    display: none;
-    width: 0;
-    height: 0;
-  }
-
-  /* The scrollbar is hidden, so this is the only thing telling anyone the strip
-     moves -- and it doubles as the position readout. */
-  .why__progress {
-    position: relative;
-    display: block;
-    height: 2px;
-    margin-block-start: clamp(2rem, 3vw, 3.2rem);
-    margin-inline: var(--why-pad);
-    background: var(--why-line);
-  }
-
-  .why__progress-fill {
-    position: absolute;
-    inset-block: 0;
-    inset-inline-start: 0;
-    display: block;
-    width: calc(var(--why-progress, 0) * 100%);
-    background: var(--why-lit);
-  }
-
-  .why__intro {
-    width: min(72vw, 48rem);
-    gap: clamp(1.6rem, 2.4vw, 2.4rem);
-  }
-
-  .why__desc {
-    margin-top: 0;
-  }
-
-  .why__hint {
-    display: inline-flex;
-    align-items: center;
-    gap: 1rem;
-    color: var(--why-lit);
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-
-  /* A single double-headed arrow: the element is the shaft and the pseudos are
-     the two heads, so the whole icon takes the text colour.
-     order pushes it past the text, which under RTL puts it on the left. */
-  .why__hint-icon {
-    position: relative;
-    display: block;
-    width: 2.4rem;
-    height: 2px;
-    order: 1;
-    flex: 0 0 auto;
-    background: currentColor;
-    animation: whyHintNudge 1.8s ease-in-out infinite;
-  }
-
-  .why__hint-icon::before,
-  .why__hint-icon::after {
-    position: absolute;
-    top: 50%;
-    width: 0.8rem;
-    height: 0.8rem;
-    border-top: 2px solid currentColor;
-    border-left: 2px solid currentColor;
-    content: "";
-  }
-
-  .why__hint-icon::before {
-    left: 0;
-    transform: translateY(-50%) rotate(-45deg);
-  }
-
-  .why__hint-icon::after {
-    right: 0;
-    transform: translateY(-50%) rotate(135deg);
-  }
-
-  @keyframes whyHintNudge {
-    0%,
-    100% {
-      transform: translateX(-0.3rem);
-    }
-
-    50% {
-      transform: translateX(0.3rem);
-    }
-  }
-
 }
 
 @media screen and (max-width: 767px) {
-  .why__intro {
-    width: min(84vw, 34rem);
-  }
-
-  .sec-why {
-    --why-card-w: min(86vw, 38rem);
+  .why__track {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -2756,8 +2496,9 @@ body.sticky .hd .hd-bar {
   border-block: 1px solid var(--color-line);
 }
 
-.sec-exhi + .sec-cert,
-.sec-why + .sec-cert {
+/* Whichever ruled section lands above it closes the seam; this one stands down
+   so the two do not stack a pair of hairlines. */
+.sec-exhi + .sec-cert {
   border-block-start: 0;
 }
 
@@ -2780,6 +2521,9 @@ body.sticky .hd .hd-bar {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   border-block-start: 1px solid var(--card-line);
+}
+
+.card-grid.is-brdinline-end {
   border-inline-start: 1px solid var(--card-line);
 }
 
@@ -3627,16 +3371,19 @@ section:has(+ .sec-banner-cta) {
   background: url("../assets/images/banner-cta.jpg") center / cover no-repeat;
 }
 
-/* On the service pages the band sits between two ruled sections, so the section
-   closes both seams itself -- its neighbours already stand down against it, and
-   without this the flow grid above would end with its columns hanging open. The
-   panel then gives up its own pair: one line per edge, where keeping both would
-   put two of them 0.8rem apart. */
-.service-page .sec-banner-cta {
+/* On the service and story pages the band sits between two ruled sections, so
+   the section closes both seams itself -- its neighbours already stand down
+   against it, and without this the grid above would end with its columns
+   hanging open. The panel then gives up its own pair: one line per edge, where
+   keeping both would put two of them 0.8rem apart. Only the homepage still lets
+   the panel draw its own, since nothing ruled meets it there. */
+.service-page .sec-banner-cta,
+.story-page .sec-banner-cta {
   border-block: 1px solid var(--banner-cta-line);
 }
 
-.service-page .banner-cta__panel {
+.service-page .banner-cta__panel,
+.story-page .banner-cta__panel {
   border-block: 0;
 }
 
@@ -3849,7 +3596,6 @@ section:has(+ .sec-banner-cta) {
   min-width: 0;
   margin: 0;
   padding: 0;
-  border-inline-end: 1px solid var(--news-line);
   list-style: none;
 }
 
@@ -3862,19 +3608,16 @@ section:has(+ .sec-banner-cta) {
   border-block-end: 0;
 }
 
-/* One row form shared by the home news list, the blog listing and the related
-   posts on blog-detail. All three sit in a half-page column, so a picture at 50%
-   of it is a quarter of the page on every one of them. */
-.news__list .news-card,
-.blog-grid .news-card,
-.blog-related__grid .news-card {
+/* The home news list is the only row form left. It sits in a half-page column, so
+   a picture at 50% of it is a quarter of the page. The two blog grids are four
+   across instead, where a cell is already that quarter, so their cards keep the
+   plain stacked form. */
+.news__list .news-card {
   flex-direction: row;
   align-items: stretch;
 }
 
-.news__list .news-card__media,
-.blog-grid .news-card__media,
-.blog-related__grid .news-card__media {
+.news__list .news-card__media {
   width: 50%;
   aspect-ratio: 440 / 300;
   flex: 0 0 auto;
@@ -3889,34 +3632,15 @@ section:has(+ .sec-banner-cta) {
   justify-content: center;
 }
 
-.news__list .news-card__title,
-.blog-grid .news-card__title,
-.blog-related__grid .news-card__title {
+.news__list .news-card__title {
   min-height: 0;
   flex: 0 0 auto;
   border-block-start: 0;
 }
 
-@media screen and (max-width: 1440px) {
-  .blog-grid .news-card,
-  .blog-related__grid .news-card {
-    flex-direction: column;
-  }
-
-  .blog-grid .news-card__media,
-  .blog-related__grid .news-card__media {
-    width: 100%;
-    border-inline-end: 0;
-  }
-
-  .blog-grid .news-card__title,
-  .blog-related__grid .news-card__title {
-    border-block-start: 1px solid var(--color-line);
-  }
-}
-
 .news__aside {
   min-width: 0;
+  border-inline-end: 1px solid var(--news-line);
 }
 
 .news__aside-sticky {
@@ -3946,12 +3670,8 @@ section:has(+ .sec-banner-cta) {
     width: clamp(18rem, 32%, 34rem);
   }
 
-  .news__list {
-    border-inline-end: 0;
-    order: 2;
-  }
-
   .news__aside {
+    border-inline-end: 0;
     border-block-end: 1px solid var(--news-line);
   }
 
@@ -4304,10 +4024,8 @@ a.sec-exhi__pin img {
 
 /* The seam above the footer belongs to .ft-grid's border-block-start, which every
    page needs -- most last blocks draw no bottom border of their own. The few
-   that do (.sec-faq, .sec-cert on the list pages, .catalog-layout on the catalog
-   ones) would stack a second 1px against it, so whatever closes <main> gives its
-   bottom border up. Not section:last-child: the catalog pages wrap theirs in a
-   plain div. */
+   that do (.sec-faq, .sec-cert on the list pages) would stack a second 1px
+   against it, so whatever closes <main> gives its bottom border up. */
 main > :last-child {
   border-block-end: 0;
 }
@@ -4320,8 +4038,14 @@ main > :last-child {
 }
 
 /* Same lattice the product and certificate grids use: the container draws the
-   top and start edges, each cell the end and bottom ones, so the rules stay
-   unbroken however many columns a breakpoint leaves. */
+   top edge, each cell the end and bottom ones, so the rules stay unbroken
+   however many columns a breakpoint leaves.
+
+   No start edge -- and this is the rule for every grid on the site, not a
+   footer quirk. box-sizing is border-box, so a 1px start edge would come out of
+   the content box and the tracks would divide W - 1 while the thirty-odd
+   section grids above divide W. Every mark would then sit a fraction off the
+   ones directly above it, which shows as a jog wherever two lattices meet. */
 .ft-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -4388,25 +4112,18 @@ main > :last-child {
   color: #bcbcbc;
   font-family: "Poppins", Arial, sans-serif;
   font-size: 10px;
+  display: none;
 }
 
-/* The same four columns as .ft-grid, full bleed and gapless, so the rules at 25%,
-   50% and 75% run straight on down from the grid above. Copyright takes column 1
-   -- the right-hand one under RTL, where it already sat -- and the six channels
-   pair off across the other three. */
 .ft-bottom__grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-/* Phones only -- above that the four columns are already full. */
 .ft-bottom__follow {
   display: none;
 }
 
-/* Each channel cell splits again, so the pair inside it reads as two boxes of the
-   lattice rather than two words sharing one. The padding moves down to those
-   halves -- kept on the cell it would push their rule off the midpoint. */
 .ft-bottom__cell {
   display: grid;
   min-width: 0;
@@ -4464,9 +4181,8 @@ main > :last-child {
 /* The bottom row of a lattice always draws its own end edge, and on these three
    that lattice is the last thing on the page -- .ft-grid's border-block-start
    would stack a second line against it. Pulling the block up a pixel lands the
-   two on top of each other, which is what .blog-related__grid already does for
-   the same reason. main > :last-child cannot reach these: the border is on a
-   cell inside, not on the section. */
+   two on top of each other. main > :last-child cannot reach these: the border is
+   on a cell inside, not on the section. */
 .expo-grid,
 .activities-grid,
 .awards__layout {
@@ -4875,15 +4591,21 @@ main > :last-child {
     grid-template-columns: repeat(2, var(--ft-sq));
   }
 
+  /* border-block-end by hand: the label is not a .ft-bottom__cell, so the rule
+     that closes the channel row underneath skips it and the line stopped short.
+     overflow clips the phrase on a very narrow phone instead of letting it push
+     the squares off the row -- the column is minmax(0, 1fr) and would give way. */
   .ft-bottom__follow {
     display: flex;
     align-items: center;
     padding-inline: clamp(1.2rem, 4vw, 2.4rem);
     border-inline-end: 1px solid var(--ft-line);
+    border-block-end: 1px solid var(--ft-line);
     color: var(--color-text);
-    font-family: "Poppins", Arial, sans-serif;
+    font-family: Tahoma, Arial, sans-serif;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
+    overflow: hidden;
     white-space: nowrap;
   }
 
@@ -4967,9 +4689,13 @@ main > :last-child {
     font-size: 12px;
   }
 
+  /* No chip on a phone -- the squares of the row are the frame now, so a border
+     round each mark would be a box inside a box. Sized off --ft-sq so the inset
+     stays 0.4rem a side whatever the square works out to. */
   .ft-social__icon {
-    width: 2.8rem;
-    height: 2.8rem;
+    width: calc(var(--ft-sq) - 0.8rem);
+    height: calc(var(--ft-sq) - 0.8rem);
+    border: 0;
   }
 }
 
@@ -5713,8 +5439,7 @@ main > :last-child {
   background: #ffffff;
 }
 
-.catalog-page .page-banner__breadcrumb,
-.catalog-breadcrumb {
+.catalog-page .page-banner__breadcrumb {
   min-height: 4.8rem;
 }
 
@@ -5806,17 +5531,18 @@ main > :last-child {
   outline-offset: -0.4rem;
 }
 
+/* Full width here -- no sidebar -- so four columns put the rules on the same
+   quarter marks the footer uses. This bar carries four controls (search plus
+   three selects), one to a column, so nothing has to span. */
 .catalog-filters--search {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-}
-
-.catalog-filters--listing {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.catalog-filters--search .catalog-search,
-.catalog-filters--listing .catalog-search {
-  grid-column: span 2;
+/* Three cells across three quarters of the page: search and both selects come out
+   a quarter wide each, landing their rules on the same marks as .ft-cell and the
+   sidebar's own divider. */
+.catalog-filters--listing {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .catalog-field {
@@ -6053,19 +5779,6 @@ main > :last-child {
   box-shadow: inset 0 0 0 0.2rem var(--color-pri);
 }
 
-/* 1fr + 3fr, not 1fr + 4fr: a quarter matches one column of the footer's four,
-   so .product-categories' inline-end rule and .ft-cell's land on the same 75%
-   and the divider carries straight down the page. Both grids are full bleed --
-   .main is padding: 0 and .ft-grid has none -- so the percentages line up. This
-   split only exists above 1440px, which is also where the footer still has its
-   four columns. */
-.catalog-layout {
-  display: grid;
-  align-items: stretch;
-  border-block-end: 1px solid var(--catalog-line);
-  grid-template-columns: minmax(24rem, 1fr) minmax(0, 3fr);
-}
-
 .catalog-results {
   min-width: 0;
 }
@@ -6090,7 +5803,7 @@ main > :last-child {
 }
 
 .catalog-grid--search {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .catalog-grid--listing {
@@ -6116,137 +5829,72 @@ main > :last-child {
   line-clamp: 2;
 }
 
-.product-categories {
-  min-width: 0;
-  border-inline-end: 1px solid var(--catalog-line);
-  background: #ffffff;
-}
-
-.product-categories__head {
-  display: flex;
-  height: var(--catalog-toolbar-height);
-  min-height: var(--catalog-toolbar-height);
-  min-width: 0;
-  align-items: stretch;
-  border-block-end: 1px solid var(--catalog-line);
-  background: #ffffff;
-}
-
-.product-categories__toggle {
-  display: flex;
-  width: auto;
-  height: 100%;
-  min-height: 0;
-  min-width: 0;
-  align-items: center;
-  justify-content: space-between;
-  flex: 1 1 auto;
-  gap: 2rem;
-  padding: 0 3.2rem;
-  color: #333333;
-  font-size: 2rem;
-  font-weight: 700;
-  text-align: right;
-}
-
-.product-categories__toggle img {
-  width: 1.2rem;
-  height: 0.7rem;
-  flex: 0 0 auto;
-  transform: rotate(0deg);
-  transition: transform 0.3s ease;
-}
-
-.product-categories.is-open .product-categories__toggle img {
-  transform: rotate(180deg);
-}
-
-.product-categories__panel {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.product-categories.is-open .product-categories__panel {
-  grid-template-rows: 1fr;
-}
-
-.product-categories__panel-inner {
-  min-height: 0;
-  overflow: hidden;
-}
-
-.product-categories__list {
-  padding: 2.2rem 3.2rem 3.2rem;
-}
-
-.product-categories__item a {
-  display: flex;
-  min-width: 0;
-  align-items: baseline;
-  gap: 0.6rem;
-  padding: 0.65rem 0;
-  color: #4f4f4f;
-  font-size: 1.6rem;
-  line-height: 1.4;
-  transition: color 0.25s ease;
-}
-
-.product-categories__count {
-  flex: 0 0 auto;
-  color: #929292;
-  font-family: "Poppins", Tahoma, Arial, sans-serif;
-  font-size: 1.2rem;
-  font-weight: 400;
-}
-
-.product-categories__item.is-active > a {
-  color: var(--color-pri);
-  font-weight: 700;
-}
-
-.product-categories__item.is-active > a > span:first-child {
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-}
-
+/* Prev, the count, next -- three cells of one grid, a quarter of the page each.
+   The listing sits in the three-quarter column so three equal tracks land on the
+   quarter marks; the search page runs full width and gives the count two of them
+   (see .page-searching below). */
 .catalog-pagination {
   --pagination-cells-per-product: 6;
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  border-inline-start: 1px solid var(--color-line);
+  display: grid;
   background: #ffffff;
   container-type: inline-size;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* The nav and its list give up their boxes so the two links become cells of that
+   grid. Only the boxes go -- the nav keeps its role and its label. */
+.catalog-pagination > nav,
+.catalog-pagination__list {
+  display: contents;
+}
+
+/* Row as well as column. The count comes after both links in the source, and
+   auto-placement only moves forward -- given a column alone it skipped to a
+   second row rather than stepping back into the middle cell. */
+.catalog-pagination__list > li:first-child {
+  grid-area: 1 / 1;
+}
+
+.catalog-pagination__summary {
+  grid-area: 1 / 2;
+}
+
+.catalog-pagination__list > li:last-child {
+  grid-area: 1 / 3;
+}
+
+/* Both of these run the pagination at full page width, so the count takes two of
+   the four quarters and the links one each -- that puts the two rules on the
+   same marks their grids and the footer use. The listing pages sit in the
+   three-quarter column instead and keep three equal tracks. */
+.page-searching .catalog-pagination,
+.page-products .catalog-pagination,
+.blog-page .catalog-pagination {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+}
+
+.catalog-pagination.is-brdinline-end {
+  border-inline-start: 1px solid var(--color-line);
 }
 
 .page-searching .catalog-pagination {
-  --catalog-columns: 5;
+  --catalog-columns: 4;
 }
 
 .page-products .catalog-pagination {
   --catalog-columns: 4;
 }
 
-.catalog-pagination > nav {
-  max-width: 100%;
-  min-width: 0;
-  flex: 0 1 auto;
-}
-
-.catalog-pagination__list {
-  display: flex;
-  width: min(100%, 26rem);
-  align-items: stretch;
-  direction: rtl;
-}
-
 .catalog-pagination__list > li {
   min-width: 0;
-  flex: 1 1 0;
-  /* A physical divider stays on the same edge when the selector uses LTR. */
-  border-left: 1px solid var(--color-line);
   min-height: calc(100cqi / var(--catalog-columns, 5) / var(--pagination-cells-per-product, 6));
+}
+
+/* Each rule is drawn by the cell to its right, the same side every other divider
+   on the page uses. The last cell ends on the block's own edge. */
+.catalog-pagination__list > li:first-child,
+.catalog-pagination__summary {
+  border-inline-end: 1px solid var(--color-line);
 }
 
 .catalog-pagination__link {
@@ -6290,8 +5938,7 @@ main > :last-child {
   display: flex;
   min-width: 0;
   align-items: center;
-  flex: 0 1 auto;
-  margin-right: auto;
+  justify-content: center;
   padding: 0 3.2rem;
   color: #333333;
   font-size: 1.6rem;
@@ -6303,10 +5950,6 @@ main > :last-child {
     background: #f3f3f3;
   }
 
-  .product-categories__toggle:hover,
-  .product-categories__item a:hover {
-    color: var(--color-pri);
-  }
 }
 
 @media screen and (min-width: 1441px) {
@@ -6340,37 +5983,6 @@ main > :last-child {
     transition: top 0.35s ease;
   }
 
-  .page-products .product-categories__sticky {
-    height: 100%;
-    min-height: 100%;
-  }
-
-  .page-products .product-categories__head {
-    position: sticky;
-    top: var(--catalog-sticky-top);
-    z-index: 31;
-    transition: top 0.35s ease;
-  }
-
-  .page-products .product-categories__panel {
-    position: sticky;
-    top: calc(var(--catalog-sticky-top) + var(--catalog-toolbar-height));
-    z-index: 30;
-    min-height: 0;
-    max-height: var(--product-categories-panel-height, calc(100dvh - var(--catalog-sticky-top) - var(--catalog-toolbar-height) - var(--line-width)));
-    background: #ffffff;
-    transition: grid-template-rows 0.35s cubic-bezier(0.22, 1, 0.36, 1), top 0.35s ease;
-  }
-
-  .page-products .product-categories__panel-inner {
-    max-height: var(--product-categories-panel-height, calc(100dvh - var(--catalog-sticky-top) - var(--catalog-toolbar-height) - var(--line-width)));
-    overflow: hidden auto;
-  }
-
-  .page-products .catalog-grid--listing,
-  .page-products .catalog-pagination {
-    border-inline-start: 0;
-  }
 }
 
 @media screen and (max-width: 1440px) {
@@ -6379,7 +5991,7 @@ main > :last-child {
   }
 
   .page-products .catalog-pagination {
-    --catalog-columns: 3;
+    --catalog-columns: 4;
   }
 
   .catalog-hero .page-banner__media {
@@ -6387,34 +5999,9 @@ main > :last-child {
     min-height: 44rem;
   }
 
-  .catalog-layout {
-    display: block;
-  }
-
-  .product-categories {
-    border-inline-start: 1px solid var(--catalog-line);
-  }
-
-  .product-categories.is-open .product-categories__panel {
-    border-block-end: 1px solid var(--catalog-line);
-  }
-
-  .product-categories__list {
-    columns: 2;
-    column-gap: 3.2rem;
-  }
-
-  .product-categories__item {
-    break-inside: avoid;
-  }
-
   .catalog-filters--search,
   .catalog-filters--listing {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .catalog-filters--listing {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .catalog-filters .catalog-search {
@@ -6430,10 +6017,6 @@ main > :last-child {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .catalog-grid--listing {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .catalog-select .select2-selection--single .select2-selection__rendered {
     font-size: 1.6rem;
   }
@@ -6445,8 +6028,7 @@ main > :last-child {
     --catalog-columns: 2;
   }
 
-  .catalog-page .page-banner__breadcrumb,
-  .catalog-breadcrumb {
+  .catalog-page .page-banner__breadcrumb {
     min-height: 4rem;
   }
 
@@ -6542,15 +6124,7 @@ main > :last-child {
     opacity: 1;
   }
 
-  .page-products .catalog-page.is-catalog-filter-ready .product-categories__head .catalog-filter-trigger {
-    height: auto;
-    min-height: 0;
-    flex: 0 0 6rem;
-    align-self: stretch;
-    border-inline-start: 1px solid var(--catalog-line);
-  }
-
-  .page-searching .catalog-page.is-catalog-filter-ready .catalog-filter-trigger--standalone {
+  .catalog-page.is-catalog-filter-ready .catalog-filter-trigger--standalone {
     display: flex;
     width: 100%;
     min-height: 6rem;
@@ -6621,36 +6195,22 @@ main > :last-child {
     left: 2.6rem;
   }
 
-  .product-categories__head {
-    height: 6rem;
-    min-height: 6rem;
-  }
-
-  .product-categories__toggle {
-    min-height: 0;
-    padding-inline: 1.6rem;
-    font-size: 1.8rem;
-  }
-
-  .product-categories__list {
-    padding: 1.4rem 1.6rem 2rem;
-    columns: 1;
-  }
-
-  .product-categories__item a {
-    font-size: 1.5rem;
-  }
-
-  .catalog-grid--search {
+  .catalog-grid--search,
+  .catalog-grid--listing {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .catalog-pagination {
-    flex-direction: column;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .catalog-pagination__list {
-    width: 100%;
+  /* Stacked: the two links share the top row and the count runs under them. */
+  .catalog-pagination__list > li:last-child {
+    grid-area: 1 / 2;
+  }
+
+  .catalog-pagination__summary {
+    grid-area: 2 / 1 / auto / -1;
   }
 
   .catalog-pagination__link {
@@ -6658,12 +6218,12 @@ main > :last-child {
     font-size: clamp(1.1rem, 3.2vw, 1.3rem);
   }
 
+  /* Full width on its own row, so its inline end is the block edge -- the rule
+     between the two links above is the only one left. */
   .catalog-pagination__summary {
-    width: 100%;
     min-height: 5.4rem;
-    margin-right: 0;
-    justify-content: center;
     padding: 1rem 1.6rem;
+    border-inline-end: 0;
     border-block-start: 1px solid var(--catalog-line);
     font-size: 1.4rem;
   }
@@ -6673,9 +6233,6 @@ main > :last-child {
    the screen, not decoration, and freezing it made the bar read as display
    none. Everything else here still honours the preference. */
 @media (prefers-reduced-motion: reduce) {
-  .product-categories__panel,
-  .page-products .product-categories__head,
-  .page-products .product-categories__panel,
   .catalog-page.is-catalog-filter-ready .catalog-filters,
   .catalog-page.is-catalog-filter-ready .catalog-filter-trigger,
   .catalog-filter-trigger__icons::before,
@@ -7026,7 +6583,33 @@ main > :last-child {
 
 .product-related__slider .swiper-slide {
   height: auto;
+  border-inline-end: 0;
   border-block-end: unset;
+}
+
+/* Heading and three cards on one row. A quarter for the heading leaves each card
+   at a quarter of the page as well -- the same width they already have between
+   901 and 1440, where the slider runs full width with four in view. Below 1441
+   the two stack again, which is why this is min-width. */
+@media screen and (min-width: 1441px) {
+  .product-related {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+  }
+
+  .product-related__head {
+    display: flex;
+    align-items: center;
+    padding: clamp(3.2rem, 4vw, 6rem) clamp(2rem, 2.4vw, 4rem);
+    border-inline-end: 1px solid var(--product-detail-line);
+    text-align: right;
+  }
+
+  /* Side by side, that rule would run along the top of the slider only. The
+     section above already closes this edge with its own border-block-end. */
+  .product-related__slider {
+    border-block-start: 0;
+  }
 }
 
 @media screen and (max-width: 1440px) {
@@ -7152,7 +6735,7 @@ main > :last-child {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.page-banner + .contact-form {
+.page-banner + .contact-enquiry {
   border-block-start: 0;
 }
 
@@ -7320,8 +6903,11 @@ main > :last-child {
   --news-line: var(--blog-line);
   display: grid;
   border-block-start: 1px solid var(--grid-line);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.blog-grid.is-brdinline-end {
   border-inline-start: 1px solid var(--grid-line);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .blog-card {
@@ -7365,14 +6951,6 @@ main > :last-child {
   /* One card per row would blow the cell up to a sixth of the screen. */
   .blog-page {
     --catalog-columns: 2;
-  }
-
-  .blog-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .blog-related__grid {
-    grid-template-columns: minmax(0, 1fr);
   }
 
   .blog-list__head {
@@ -7705,25 +7283,113 @@ main > :last-child {
   line-height: 1.3;
 }
 
-/* Four whole cards on desktop, so the track needs no centring offset. */
-/* The same lattice the product and category grids use. margin-block-end pulls the
-   last row's rule under the footer's own border-block-start: this section is the
-   last thing in <main>, so without it those two 1px lines stack. */
-.blog-related__grid {
+/* Built like .product-related__slider: this rule separates the heading from the
+   track when the two stack. The vertical dividers are not here -- they are
+   painted on the track as a fixed overlay further down. No block-end on a slide
+   either: there are no rows to separate, and the footer draws the line under the
+   section. */
+.blog-related__slider {
   --grid-line: var(--blog-detail-line);
-  display: grid;
-  margin: 0 0 -1px;
-  padding: 0;
   border-block-start: 1px solid var(--grid-line);
-  border-inline-start: 1px solid var(--grid-line);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  list-style: none;
 }
 
-.blog-related__grid > li {
+/* The dividers are drawn on the track, not on the slides. Swiper sizes slides in
+   pixels: a track of 1429.5px over three slides is 476.5px each, and the loop
+   translate then lands on half a pixel, so the 1px borders rendered a hair off
+   the footer rules they are supposed to continue. roundLengths only traded that
+   for a whole pixel of error. Painted here they resolve from percentages, the
+   same way .ft-cell's do, so they land on the same column marks exactly.
+
+   --slides has to track the breakpoints in each slider's Swiper config, so the
+   two ladders are set side by side below. They part company between 768 and
+   1440: the related blog track holds two cards there because blog.html's own
+   grid drops to two over the same range, while related products stays denser. */
+.product-related__slider,
+.blog-related__slider {
+  --slides: 2;
+  position: relative;
+}
+
+.product-related__slider::after,
+.blog-related__slider::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background-image: repeating-linear-gradient(to right,
+      var(--grid-line) 0 1px,
+      transparent 1px calc(100% / var(--slides)));
+  content: "";
+  pointer-events: none;
+}
+
+@media screen and (min-width: 768px) {
+  .product-related__slider {
+    --slides: 3;
+  }
+}
+
+@media screen and (min-width: 901px) {
+  .product-related__slider {
+    --slides: 4;
+  }
+}
+
+@media screen and (min-width: 1441px) {
+  /* The heading takes a quarter of the row here, so the track holds three. */
+  .product-related__slider,
+  .blog-related__slider {
+    --slides: 3;
+  }
+}
+
+.blog-related__slider .swiper-wrapper {
+  align-items: stretch;
+}
+
+.blog-related__slider .swiper-slide {
+  height: auto;
   min-width: 0;
-  border-inline-end: 1px solid var(--grid-line);
-  border-block-end: 1px solid var(--grid-line);
+}
+
+/* Heading and three cards on one row, the same split .product-related uses: a
+   quarter for the heading leaves each card at a quarter of the page. Below 1441
+   the two stack again. */
+@media screen and (min-width: 1441px) {
+  .blog-related {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+  }
+
+  .blog-related__head {
+    display: flex;
+    align-items: center;
+    padding: clamp(3.2rem, 4vw, 6rem) clamp(2rem, 2.4vw, 4rem);
+    border-inline-end: 1px solid var(--blog-detail-line);
+    text-align: right;
+  }
+
+  /* Side by side, that rule would run along the top of the track only. The
+     article body above already closes this edge with its border-block-end. */
+  .blog-related__slider {
+    border-block-start: 0;
+  }
+}
+
+/* Both blog grids step down together. This has to sit after their own rules:
+   the column counts are all plain class selectors, so a media query only wins by
+   coming later in the file -- put it earlier and the four-column base overrides
+   it at every width, which is what was happening. */
+@media screen and (max-width: 1440px) {
+  /* Two across from here: a quarter of a tablet is too narrow for the title. */
+  .blog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .blog-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 @media screen and (max-width: 900px) {
@@ -8279,28 +7945,53 @@ main > :last-child {
   background: #ffffff;
 }
 
+/* One row of four: the section's own heading takes the first cell and the seven
+   photographs fill the rest, so eight cells make two whole rows. Quarters put
+   the rules on the same marks .ft-grid uses. Every cell closes its own end and
+   bottom edges -- each line drawn once, by the cell to its right, the same
+   lattice .cat-grid, .prd-grid, .card-grid, .blog-grid and .expo-grid all use.
+
+   No top edge, though: the section carries no padding of its own, so the grid
+   begins directly under .page-banner__breadcrumb and borrows the rule that
+   already closes it. No start edge either -- see .ft-grid: every lattice divides
+   the full width, or its marks drift off the ones above and below. */
 .activities-grid {
-  display: flex;
-  margin-block-start: var(--section-gap);
-  border-top: 1px solid var(--activities-line);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.activities-grid__col {
+.activities-grid.is-brdinline-end {
+  border-inline-start: 1px solid var(--activities-line);
+}
+
+/* The pictures are square, so a row stands a quarter of the page tall and the
+   copy has that much room. Should it ever want more, the row grows and they
+   cover the difference rather than leaving the cell short. */
+.activities-head {
   display: flex;
   min-width: 0;
-  flex: 1 1 0;
+  padding: clamp(1.6rem, 2.4vw, 3.2rem);
   flex-direction: column;
+  justify-content: center;
+  gap: clamp(1.2rem, 1.6vw, 2rem);
+  border-inline-end: 1px solid var(--activities-line);
+  border-block-end: 1px solid var(--activities-line);
+  background: #ffffff;
+  text-align: right;
 }
 
-.activities-grid__col--wide {
-  flex-grow: 1.2;
+.activities-head .sec-title,
+.activities-head .sec-desc {
+  margin: 0;
 }
 
 .activity-card {
   display: block;
   min-width: 0;
   padding: 0.8rem;
+  border-inline-end: 1px solid var(--activities-line);
   border-block-end: 1px solid var(--activities-line);
+  aspect-ratio: 1;
 }
 
 .activity-card__frame {
@@ -8311,9 +8002,12 @@ main > :last-child {
   background: #f4f4f4;
 }
 
+/* Three of the seven are landscape and the rest square; one ratio for every cell
+   and cover settles the difference. */
 .activity-card__frame img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -8330,28 +8024,16 @@ main > :last-child {
   line-height: 1.3;
 }
 
-@media screen and (min-width: 901px) {
-  .activities-grid__col:not(:first-child) {
-    border-inline-start: 1px solid var(--activities-line);
-  }
-
-  .activity-card:last-child {
-    flex: 1 1 auto;
-  }
-
-  .activity-card:last-child .activity-card__frame img {
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .activity-card:not(:last-child) {
-    border-inline-start:unset;
+/* Half and half, then one at a time -- the heading cell only gets roomier. */
+@media screen and (max-width: 1440px) {
+  .activities-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 767px) {
   .activities-grid {
-    flex-direction: column;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -8398,9 +8080,13 @@ main > :last-child {
   overflow: hidden;
 }
 
+/* No inset here. The 0.8rem the cards elsewhere carry is the air inside a ruled
+   cell; this is a full-height hero filling its half of the pin, so the padding
+   only put a white margin round the photograph -- and, once the aspect-ratio
+   below takes over at 1440, measured that ratio on the border box and left the
+   picture at a ratio of its own. */
 .hist__shot {
   position: absolute;
-  padding: 0.8rem;
   inset: 0;
   visibility: hidden;
   opacity: 0;
@@ -8508,12 +8194,16 @@ main > :last-child {
   line-height: 1.8;
 }
 
+/* Start edge only. The bar ends on the section's own bottom edge -- the pin is
+   sticky and comes to rest there -- and .ft-grid draws that line already, so a
+   block-end here would stack a second one against it. It cannot be pulled back
+   with a negative margin either: .hist__pin clips. */
 .hist__bar {
   position: absolute;
   z-index: 4;
   bottom: 0;
   inset-inline: 0;
-  border-block: 1px solid var(--hist-line);
+  border-block-start: 1px solid var(--hist-line);
   background: #ffffff;
 }
 
@@ -8530,9 +8220,14 @@ main > :last-child {
   height: 0;
 }
 
+/* Equal shares, not content widths. At flex-basis auto each cell started at the
+   width of its own digits -- Poppins sets a 1 narrower than a 6 -- and the free
+   space was then added equally on top, so 2013 came out a good 20px shy of 2004.
+   A zero basis divides the row evenly instead, and the min-width is what lets it
+   overflow into a scroll once fourteen of them no longer fit. */
 .hist__bar-cell {
-  min-width: 0;
-  flex: 1 0 auto;
+  flex: 1 0 0;
+  min-width: 8rem;
 }
 
 .hist__bar-cell:not(:last-child) .hist__bar-item {
@@ -8616,10 +8311,15 @@ main > :last-child {
     margin-bottom: 1.6rem;
   }
 
+  /* Gone. The timeline is unpinned at this width -- every photograph and panel
+     is already laid out down the page -- so the bar navigates nothing you cannot
+     reach by scrolling. It was also the one strip that could not be squared with
+     anything around it: fourteen years divide into neither the footer's two
+     columns nor the page, so wherever it sat its rules cut across another
+     lattice at arbitrary points. The whole nav goes, not just the list, or an
+     empty ruled strip would be left behind. */
   .hist__bar {
-    position: sticky;
-    bottom: 0;
-    order: 9999;
+    display: none;
   }
 }
 
@@ -8951,10 +8651,6 @@ main > :last-child {
   }
 }
 
-.story-page .sec-banner-cta {
-  border-block-end: 1px solid var(--banner-cta-line);
-}
-
 /* Leadership: the portrait panel pins while the message column scrolls past. */
 .sec-leader {
   --leader-line: var(--color-line);
@@ -8965,13 +8661,23 @@ main > :last-child {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+/* .story-intro closes itself and now meets this one directly, so the lower
+   section stands down -- the same way .sec-cert and .sec-exhi settle theirs. */
+.story-intro + .sec-leader {
+  border-block-start: 0;
+}
+
 /* Column 2 is the left-hand half under RTL, which is where the panel belongs;
    placing both explicitly keeps the heading first in the document. */
+/* Pinned under the header rather than behind it: the panel leads with its
+   heading, so at top: 0 the fixed bar covered the first line. The height comes
+   down by the same amount, which keeps the panel's foot on the viewport floor
+   and the buttons anchored to it where they were. */
 .leader-intro {
   position: sticky;
-  top: 0;
+  top: var(--rtl-navbar-h);
   display: flex;
-  height: 100svh;
+  height: calc(100svh - var(--rtl-navbar-h));
   padding: var(--leader-pad);
   flex-direction: column;
   overflow: hidden;
@@ -9128,74 +8834,57 @@ main > :last-child {
   }
 }
 
-/* Production process: a fixed copy panel with the slider running off its edge. */
+/* Production process: eight cells over two rows of four -- the copy takes the
+   first and the seven steps the rest. The last row's cells close the section, so
+   the section draws no bottom edge of its own. */
 .sec-process {
   --process-line: var(--color-line);
   --process-pad: clamp(2rem, 3vw, 5.6rem);
-  --process-card-w: 66.667%;
-  display: grid;
-  border-block-end: 1px solid var(--process-line);
   background: #ffffff;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.process-grid.is-brdinline-end {
+  border-inline-start: 1px solid var(--process-line);
 }
 
 .process__head {
   display: flex;
-  padding: clamp(4rem, 6vw, 10rem) var(--process-pad);
+  min-width: 0;
+  padding: clamp(2.4rem, 3vw, 4rem) var(--process-pad);
   border-inline-end: 1px solid var(--process-line);
+  border-block-end: 1px solid var(--process-line);
   flex-direction: column;
   justify-content: center;
   text-align: right;
-}
-
-.process__nav {
-  display: flex;
-  margin-bottom: clamp(2.4rem, 3vw, 4.8rem);
-  justify-content: flex-start;
-  gap: 0.8rem;
-}
-
-.process__nav .swiper-control-btn {
-  position: relative;
-  top: auto;
-  width: 4.2rem;
-  height: 4.2rem;
-  inset-inline: auto;
-  background: var(--color-cream);
-  transform: none;
 }
 
 .process__head .sec-desc {
   max-width: 52rem;
 }
 
-/* Slides carry the rule on their end edge, so the head keeps the seam and the
-   strip runs on past the viewport without an outer line. */
-.process__slider {
-  min-width: 0;
-}
-
-.process__slider .swiper-slide {
-  width: var(--process-card-w);
-  height: auto;
-}
-
 .process-card {
   display: flex;
-  height: 100%;
   min-width: 0;
   padding: 0.8rem 0.8rem clamp(2.4rem, 3vw, 4rem);
   border-inline-end: 1px solid var(--process-line);
+  border-block-end: 1px solid var(--process-line);
   flex-direction: column;
   background: #ffffff;
   text-align: right;
 }
 
+/* Same ratio .why-card__frame uses, so the two card grids read as one family.
+   The max-height that capped the old square is gone with it: at this ratio the
+   picture is never tall enough to reach it, at any of the three column counts. */
 .process-card__media {
   position: relative;
   margin: 0;
-  max-height: 46rem;
-  aspect-ratio: 1;
+  aspect-ratio: 731 / 401;
   overflow: hidden;
   background: #f4f4f4;
 }
@@ -9236,35 +8925,24 @@ main > :last-child {
 }
 
 @media all {
-  .process__nav .swiper-control-btn:hover {
-    background: #303030;
-  }
-
-  .process__nav .swiper-control-btn:hover img {
-    filter: brightness(0) invert(1);
-  }
-
   .process-card:hover .process-card__media img {
     transform: scale(1.05);
   }
 }
 
 @media screen and (max-width: 1440px) {
-  .sec-process {
-    --process-card-w: 41.667%;
-    grid-template-columns: minmax(0, 1fr);
+  .process-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .process__head {
     padding: clamp(3.2rem, 5vw, 6rem) var(--page-gutter, var(--process-pad));
-    border-inline-end: 0;
-    border-block-end: 1px solid var(--process-line);
   }
 }
 
-@media screen and (max-width: 900px) {
-  .sec-process {
-    --process-card-w: 62.5%;
+@media screen and (max-width: 767px) {
+  .process-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -9272,12 +8950,6 @@ main > :last-child {
   .process-card__step {
     padding: 0.6rem 1.2rem;
     font-size: 1.2rem;
-  }
-}
-
-@media screen and (max-width: 599px) {
-  .sec-process {
-    --process-card-w: 90.909%;
   }
 }
 
@@ -9301,19 +8973,57 @@ main > :last-child {
   margin-inline-end: auto;
 }
 
+/* A row per exhibition, four quarters wide: the fair's logo in the first cell
+   and its three photographs in the rest. Quarters put the rules on the same
+   marks .ft-grid uses. The grid closes its own start edges and every cell closes
+   its own end ones, so each line is drawn once, by the cell to its right. */
 .expo-grid {
   display: grid;
   margin-top: var(--section-gap);
   border-block-start: 1px solid var(--expo-line);
-  border-inline-start: 1px solid var(--expo-line);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.expo-grid__col {
-  display: grid;
+.expo-grid.is-brdinline-end {
+  border-inline-start: 1px solid var(--expo-line);
+}
+
+/* An exhibition is a block of four cells. At full width it dissolves, so its
+   cells sit straight on the section's own quarters and a fair reads as one row.
+   Narrower it becomes a two-by-two of its own -- which is what makes the logo
+   able to change corner from one fair to the next. */
+.expo-fair {
+  display: contents;
+}
+
+/* The photographs set the row's height; this one just centres itself in it. */
+.expo-brand {
+  display: flex;
   min-width: 0;
-  align-content: start;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: clamp(1.6rem, 2.4vw, 3.2rem);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.2rem, 1.6vw, 2rem);
+  border-inline-end: 1px solid var(--expo-line);
+  border-block-end: 1px solid var(--expo-line);
+  background: #ffffff;
+  text-align: center;
+}
+
+.expo-brand__logo {
+  width: auto;
+  max-width: min(100%, 18rem);
+  height: auto;
+  max-height: 8rem;
+  object-fit: contain;
+}
+
+.expo-brand__meta {
+  margin: 0;
+  color: var(--color-des);
+  font-size: 1.4rem;
+  line-height: 1.6;
 }
 
 /* The ratios match the sources exactly, so the captions burned into each photo
@@ -9328,10 +9038,6 @@ main > :last-child {
   background: #ffffff;
 }
 
-.expo-item--wide {
-  grid-column: span 2;
-}
-
 /* The ratio sits on the frame inside, so the 8px inset is not eaten by it. */
 .expo-item__frame {
   display: block;
@@ -9340,14 +9046,11 @@ main > :last-child {
   overflow: hidden;
 }
 
-.expo-item--wide .expo-item__frame {
-  aspect-ratio: 739 / 504;
-}
-
 .expo-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: bottom;
   transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -9357,19 +9060,47 @@ main > :last-child {
   }
 }
 
+/* Half and half: an exhibition runs over two rows of its own. */
 @media screen and (max-width: 1440px) {
   .expo-grid {
     grid-template-columns: minmax(0, 1fr);
   }
+
+  .expo-fair {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
+/* Every logo drops to the second row of its fair and swaps corner from one fair
+   to the next, so the photographs run three in a row and no two logos sit in the
+   same column. Source order is logo, 01, 02, 03; order pulls the last photograph
+   up past the logo in odd fairs and pushes it down past it in even ones, which
+   is the swap. Bounded below as well as above: at one cell per row there is no
+   corner to alternate, and leaving these on would only shuffle the column. */
+@media screen and (min-width: 768px) and (max-width: 1440px) {
+  .expo-fair .expo-brand {
+    order: 1;
+  }
+
+  .expo-fair:nth-child(odd) .expo-item:last-child {
+    order: -1;
+  }
+
+  .expo-fair:nth-child(even) .expo-item:last-child {
+    order: 2;
+  }
+}
+
+/* One cell per row, every fair led by its logo -- the block above stops here. */
 @media screen and (max-width: 767px) {
-  .expo-grid__col {
+  .expo-fair {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .expo-item--wide {
-    grid-column: auto;
+  .expo-brand__logo {
+    max-height: 6.4rem;
   }
 }
 
@@ -9424,9 +9155,15 @@ main > :last-child {
   text-align: right;
 }
 
-/* The outermost cell of a row sits on the page edge, where nothing is drawn. */
+/* The outermost cell of a row sits on the page edge, where nothing is drawn --
+   but the border keeps its pixel and only loses its colour. box-sizing is
+   border-box, so dropping the width outright would leave this cell a pixel wider
+   inside than the other three, and .flow-step__media takes its height from that
+   width through aspect-ratio: the photo came out a pixel taller and every line
+   below it -- the rule under the picture, the thread through the numbers -- sat
+   a pixel low against its neighbours. */
 .flow-step:nth-child(4n) {
-  border-inline-end: 0;
+  border-inline-end-color: transparent;
 }
 
 /* Absolute rather than height:100% -- the ratio-derived height of a flex item is
@@ -9475,9 +9212,12 @@ main > :last-child {
   inset-inline-start: calc(var(--flow-pad) + var(--flow-num) / 2);
 }
 
+/* Mirror of the rule above: the segment beside the last number runs from that
+   cell's own start edge to the centre of the number, which is where the thread
+   has to stop. */
 .flow-step:last-child .flow-step__body::before {
-  inset-inline-end: auto;
-  width: calc(var(--flow-pad) + var(--flow-num) / 2);
+  inset-inline-start: 0;
+  inset-inline-end: calc(100% - var(--flow-pad) - var(--flow-num) / 2);
 }
 
 .flow-step__num {
@@ -9507,12 +9247,6 @@ main > :last-child {
   line-height: 1.7;
 }
 
-@media all {
-  .flow-step:not(.is-active):hover {
-    background: var(--color-cream);
-  }
-}
-
 @media screen and (max-width: 1440px) {
   .sec-flow {
     --sec-gutter: clamp(1.8rem, 3.2vw, 3.6rem);
@@ -9524,11 +9258,11 @@ main > :last-child {
 
   /* Two per row, so the cell that stands down moves. */
   .flow-step:nth-child(4n) {
-    border-inline-end: 1px solid var(--flow-line);
+    border-inline-end-color: var(--flow-line);
   }
 
   .flow-step:nth-child(2n) {
-    border-inline-end: 0;
+    border-inline-end-color: transparent;
   }
 
   /* The thread only reads as one run while all four share a row. */
@@ -9553,8 +9287,9 @@ main > :last-child {
   /* Raised to match :nth-child(4n) from the wider block, which would otherwise
      put an edge back on the last cell. */
   .flow-step,
-  .flow-step:nth-child(4n) {
-    border-inline-end: 0;
+  /* One per row: every cell is an outer one now. */
+  .flow-step {
+    border-inline-end-color: transparent;
   }
 
   .mile__aside-sticky {
@@ -9621,10 +9356,6 @@ main > :last-child {
       transform: translateX(0.3rem);
     }
   }
-
-}
-
-@media screen and (max-width: 767px) {
 
 }
 
@@ -10333,19 +10064,18 @@ main > :last-child {
    multi-slide row flashes as one oversized card and then snaps into place. Each
    slider declares the per-view count its config will use and the pre-init width
    follows it; Swiper's inline widths take over the moment it initialises. Keep
-   these in step with the breakpoints in the matching module. */
+   these in step with the breakpoints in the matching module -- a stale entry
+   here is worse than none, since the row then settles at one width and jumps to
+   another. The two related sliders share a base and a top step but nothing in
+   between: products thickens twice on the way up, blog holds two until 1441. */
 .swiper:not(.swiper-initialized) .swiper-slide {
   width: calc(100% / var(--swiper-spv, 1));
 }
 
-.productRelatedSliderJS {
+.productRelatedSliderJS,
+.blogRelatedSliderJS {
   --swiper-spv: 2;
 }
-
-.processSliderJS {
-  --swiper-spv: 1.1;
-}
-
 .awardAlsoJS {
   --swiper-spv: 1.6;
 }
@@ -10356,17 +10086,14 @@ main > :last-child {
 }
 
 @media screen and (min-width: 600px) {
-
-  .productRelatedSliderJS {
-    --swiper-spv: 3;
-  }
-
-  .processSliderJS {
-    --swiper-spv: 1.6;
-  }
-
   .awardAlsoJS {
     --swiper-spv: 2.4;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .productRelatedSliderJS {
+    --swiper-spv: 3;
   }
 }
 
@@ -10374,26 +10101,16 @@ main > :last-child {
   .productRelatedSliderJS {
     --swiper-spv: 4;
   }
-
-  .processSliderJS {
-    --swiper-spv: 2.4;
-  }
-
   .awardAlsoJS {
     --swiper-spv: 3;
   }
 }
 
 @media screen and (min-width: 1441px) {
-
-  .productRelatedSliderJS {
-    --swiper-spv: 5;
+  .productRelatedSliderJS,
+  .blogRelatedSliderJS {
+    --swiper-spv: 3;
   }
-
-  .processSliderJS {
-    --swiper-spv: 1.5;
-  }
-
   .pkg__slider--material,
   .pkg__slider--size {
     --swiper-spv: 5;
@@ -10570,10 +10287,6 @@ html {
 }
 
 .hd-mega__item.is-active > .hd-mega__link {
-  color: var(--color-pri);
-}
-
-.hd-mega__item.is-active > .hd-mega__link::before {
   color: var(--color-pri);
 }
 
@@ -10767,47 +10480,6 @@ html {
   .page-searching .catalog-page {
     --catalog-sticky-top: var(--rtl-navbar-h);
     overflow: visible;
-  }
-
-  .page-products .product-categories {
-    position: sticky;
-    top: var(--catalog-sticky-top);
-    z-index: 32;
-    background: #ffffff;
-    transition: top 0.35s ease;
-  }
-
-  .page-products .product-categories__panel-inner {
-    max-height: calc(100dvh - var(--catalog-sticky-top) - var(--catalog-toolbar-height));
-    overflow: hidden auto;
-  }
-
-  .page-products .catalog-page.is-catalog-filter-ready .catalog-filters--listing {
-    position: sticky;
-    top: calc(var(--catalog-sticky-top) + var(--catalog-cat-head-h, var(--catalog-toolbar-height)));
-    z-index: 31;
-    background: #ffffff;
-    transition: top 0.35s ease;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .page-products .catalog-page {
-    --catalog-cat-head-h: 6rem;
-  }
-}
-
-@media screen and (max-width: 1440px) {
-  .page-products .catalog-page.is-catalog-filter-ready .product-categories__head .catalog-filter-trigger {
-    flex: 0 0 calc(64px - var(--line-width));
-    width: calc(64px - var(--line-width));
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .page-products .catalog-page.is-catalog-filter-ready .product-categories__head .catalog-filter-trigger {
-    flex: 0 0 calc(var(--rtl-mobile-tool-w) - var(--line-width));
-    width: calc(var(--rtl-mobile-tool-w) - var(--line-width));
   }
 }
 
@@ -11048,8 +10720,10 @@ html {
     max-height: 60dvh;
   }
 
+  /* Stacked, the ad would sit between the article and the related posts with no
+     column of its own to justify it. The sidebar is a desktop slot. */
   .blog-ads {
-    margin-block-start: clamp(2.4rem, 4vw, 3.6rem);
+    display: none;
   }
 }
 

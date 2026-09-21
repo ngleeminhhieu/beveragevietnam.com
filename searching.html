@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="./css/style.css">
   </head>
   <body class="page-searching">
-    <header class="hd default">
+    <header class="hd">
       <div class="hd-bar">
         <div class="hd-main">
           <div class="hd-logo">
@@ -370,14 +370,24 @@
       </div>
     </header>
 
-    <main class="main inner-page catalog-page">
-      <nav class="catalog-breadcrumb page-banner__breadcrumb" aria-label="مسیر صفحه">
-        <ol class="breadcrumb-list">
-          <li class="breadcrumb-item"><a href="./index.html" aria-label="صفحه اصلی"><img class="breadcrumb-icon" src="./assets/images/ic-home.svg" alt=""></a></li>
-          <li class="breadcrumb-sep" aria-hidden="true">‹</li>
-          <li class="breadcrumb-item breadcrumb-item--current" aria-current="page">نتایج جستجو</li>
-        </ol>
-      </nav>
+    <main class="main inner-page banner-page catalog-page">
+      <section class="page-banner catalog-hero" aria-labelledby="page-title">
+        <div class="page-banner__media">
+          <img src="./assets/images/banner-products.jpg" width="1512" height="520" alt="مجموعه‌ای از نوشیدنی‌های میوه و سبزیجات RITA" fetchpriority="high">
+          <div class="page-banner__content">
+            <h1 class="page-banner__title t-48" id="page-title">نتایج جستجو برای کیوی</h1>
+          </div>
+        </div>
+
+        <nav class="page-banner__breadcrumb" aria-label="مسیر صفحه">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item"><a href="./index.html" aria-label="صفحه اصلی"><img class="breadcrumb-icon" src="./assets/images/ic-home.svg" alt=""></a></li>
+            <li class="breadcrumb-sep" aria-hidden="true">‹</li>
+            <li class="breadcrumb-item breadcrumb-item--current" aria-current="page">نتایج جستجو</li>
+          </ol>
+        </nav>
+      </section>
+
 
       <button class="catalog-filter-trigger catalog-filter-trigger--standalone catalogFiltersToggleJS" type="button" aria-controls="catalog-filters-searching" aria-expanded="false" aria-label="باز کردن فیلترهای محصولات">
         <span class="catalog-filter-trigger__label">فیلتر محصولات</span>
@@ -458,8 +468,7 @@
         </div>
       </form>
 
-      <section class="catalog-results" aria-labelledby="search-results-title">
-        <h1 class="sr-only" id="search-results-title">نتایج جستجو برای کیوی</h1>
+      <section class="catalog-results" aria-labelledby="page-title">
         <ul class="prd-grid catalog-grid catalog-grid--search">
           <li class="prd-card">
             <a href="./product-detail.html">
@@ -601,20 +610,6 @@
               <h2 class="prd-name t-18"><span class="prd-name__cate">نوشیدنی‌های گازدار</span><span class="prd-name__text">نوشابه گازدار کیوی ۳۲۰ میلی‌لیتر قوطی</span></h2>
             </a>
           </li>
-        <li class="prd-card prd-card--promo">
-          <a class="prd-promo" href="./contact.html">
-            <img class="prd-promo__img" src="./assets/images/free-sample.jpg" width="731" height="401" alt="" loading="lazy" decoding="async">
-            <span class="prd-promo__body">
-              <span class="prd-promo__copy">
-                <span class="prd-promo__title">نمونه رایگان درخواست کنید</span>
-                <span class="prd-promo__desc">نمونه رایگان، طراحی رایگان برچسب و حداقل سفارش انعطاف‌پذیر</span>
-              </span>
-              <span class="btn pri btn--icon" aria-hidden="true">
-                <span class="txt"><img class="btn__icon" src="./assets/images/ic-arrow.svg" alt=""></span>
-              </span>
-            </span>
-          </a>
-        </li>
           <li class="prd-card">
             <a href="./product-detail.html">
               <span class="prd-pic"><img src="./assets/images/product-11.jpg" width="480" height="480" alt="نوشیدنی آب آناناس طبیعی" loading="lazy" decoding="async">
@@ -643,90 +638,6 @@
               <h2 class="prd-name t-18"><span class="prd-name__cate">نوشیدنی‌های میوه‌ای</span><span class="prd-name__text">نوشیدنی ۱۰۰٪ آب پرتقال طبیعی – ۳۲۵ میلی‌لیتر</span></h2>
             </a>
           </li>
-          <li class="prd-card">
-            <a href="./product-detail.html">
-              <span class="prd-pic"><img src="./assets/images/product-13.jpg" width="492" height="492" alt="نوشیدنی آب میوه‌های مخلوط طبیعی" loading="lazy" decoding="async">
-                <span class="prd-perks" aria-hidden="true">
-                  <span class="prd-perks__item prd-perks__item--oem" title="OEM/ODM"><img src="./assets/images/ic-oem-odm.svg" alt="" width="40" height="40" loading="lazy"></span>
-                  <span class="prd-perks__item" title="نمونه رایگان"><img src="./assets/images/ic-free-sample.svg" alt="" width="24" height="24" loading="lazy"></span>
-                  <span class="prd-perks__item" title="طراحی رایگان برچسب"><img src="./assets/images/ic-free-label.svg" alt="" width="24" height="24" loading="lazy"></span>
-                  <span class="prd-perks__item" title="حداقل سفارش انعطاف‌پذیر"><img src="./assets/images/ic-flexible-moq.svg" alt="" width="24" height="24" loading="lazy"></span>
-                </span>
-              </span>
-              <span class="sr-only">OEM/ODM</span>
-              <h2 class="prd-name t-18"><span class="prd-name__cate">نوشیدنی‌های میوه‌ای</span><span class="prd-name__text">نوشیدنی ۱۰۰٪ آب میوه‌های مخلوط طبیعی – ۳۲۵ میلی‌لیتر</span></h2>
-            </a>
-          </li>
-          <li class="prd-card">
-            <a href="./product-detail.html">
-              <span class="prd-pic"><img src="./assets/images/product-14.jpg" width="480" height="480" alt="نوشیدنی آب منگوستین طبیعی" loading="lazy" decoding="async">
-                <span class="prd-perks" aria-hidden="true">
-                  <span class="prd-perks__item prd-perks__item--oem" title="OEM/ODM"><img src="./assets/images/ic-oem-odm.svg" alt="" width="40" height="40" loading="lazy"></span>
-                  <span class="prd-perks__item" title="نمونه رایگان"><img src="./assets/images/ic-free-sample.svg" alt="" width="24" height="24" loading="lazy"></span>
-                  <span class="prd-perks__item" title="طراحی رایگان برچسب"><img src="./assets/images/ic-free-label.svg" alt="" width="24" height="24" loading="lazy"></span>
-                  <span class="prd-perks__item" title="حداقل سفارش انعطاف‌پذیر"><img src="./assets/images/ic-flexible-moq.svg" alt="" width="24" height="24" loading="lazy"></span>
-                </span>
-              </span>
-              <span class="sr-only">OEM/ODM</span>
-              <h2 class="prd-name t-18"><span class="prd-name__cate">نوشیدنی‌های میوه‌ای</span><span class="prd-name__text">نوشیدنی ۱۰۰٪ آب منگوستین طبیعی – ۳۲۵ میلی‌لیتر</span></h2>
-            </a>
-          </li>
-          <li class="prd-card">
-            <a href="./product-detail.html">
-              <span class="prd-pic"><img src="./assets/images/product-15.jpg" width="480" height="480" alt="نوشیدنی آب انبه طبیعی" loading="lazy" decoding="async">
-                <span class="prd-perks" aria-hidden="true">
-                  <span class="prd-perks__item prd-perks__item--oem" title="OEM/ODM"><img src="./assets/images/ic-oem-odm.svg" alt="" width="40" height="40" loading="lazy"></span>
-                  <span class="prd-perks__item" title="نمونه رایگان"><img src="./assets/images/ic-free-sample.svg" alt="" width="24" height="24" loading="lazy"></span>
-                  <span class="prd-perks__item" title="طراحی رایگان برچسب"><img src="./assets/images/ic-free-label.svg" alt="" width="24" height="24" loading="lazy"></span>
-                  <span class="prd-perks__item" title="حداقل سفارش انعطاف‌پذیر"><img src="./assets/images/ic-flexible-moq.svg" alt="" width="24" height="24" loading="lazy"></span>
-                </span>
-              </span>
-              <span class="sr-only">OEM/ODM</span>
-              <h2 class="prd-name t-18"><span class="prd-name__cate">نوشیدنی‌های میوه‌ای</span><span class="prd-name__text">نوشیدنی ۱۰۰٪ آب انبه طبیعی – ۳۲۵ میلی‌لیتر</span></h2>
-            </a>
-          </li>
-          <li class="prd-card">
-            <a href="./product-detail.html">
-              <span class="prd-pic"><img src="./assets/images/product-16.jpg" width="480" height="480" alt="نوشیدنی آب انگور قرمز طبیعی" loading="lazy" decoding="async">
-                <span class="prd-perks" aria-hidden="true">
-                  <span class="prd-perks__item prd-perks__item--oem" title="OEM/ODM"><img src="./assets/images/ic-oem-odm.svg" alt="" width="40" height="40" loading="lazy"></span>
-                  <span class="prd-perks__item" title="نمونه رایگان"><img src="./assets/images/ic-free-sample.svg" alt="" width="24" height="24" loading="lazy"></span>
-                  <span class="prd-perks__item" title="طراحی رایگان برچسب"><img src="./assets/images/ic-free-label.svg" alt="" width="24" height="24" loading="lazy"></span>
-                  <span class="prd-perks__item" title="حداقل سفارش انعطاف‌پذیر"><img src="./assets/images/ic-flexible-moq.svg" alt="" width="24" height="24" loading="lazy"></span>
-                </span>
-              </span>
-              <span class="sr-only">OEM/ODM</span>
-              <h2 class="prd-name t-18"><span class="prd-name__cate">نوشیدنی‌های میوه‌ای</span><span class="prd-name__text">نوشیدنی ۱۰۰٪ آب انگور قرمز طبیعی – ۳۲۵ میلی‌لیتر</span></h2>
-            </a>
-          </li>
-          <li class="prd-card">
-            <a href="./product-detail.html">
-              <span class="prd-pic"><img src="./assets/images/product-17.jpg" width="480" height="480" alt="نوشیدنی ترکیبی میوه‌های بنفش" loading="lazy" decoding="async">
-                <span class="prd-perks" aria-hidden="true">
-                  <span class="prd-perks__item prd-perks__item--oem" title="OEM/ODM"><img src="./assets/images/ic-oem-odm.svg" alt="" width="40" height="40" loading="lazy"></span>
-                  <span class="prd-perks__item" title="نمونه رایگان"><img src="./assets/images/ic-free-sample.svg" alt="" width="24" height="24" loading="lazy"></span>
-                  <span class="prd-perks__item" title="طراحی رایگان برچسب"><img src="./assets/images/ic-free-label.svg" alt="" width="24" height="24" loading="lazy"></span>
-                  <span class="prd-perks__item" title="حداقل سفارش انعطاف‌پذیر"><img src="./assets/images/ic-flexible-moq.svg" alt="" width="24" height="24" loading="lazy"></span>
-                </span>
-              </span>
-              <span class="sr-only">OEM/ODM</span>
-              <h2 class="prd-name t-18"><span class="prd-name__cate">نوشیدنی‌های میوه‌ای</span><span class="prd-name__text">نوشیدنی ترکیبی میوه‌های بنفش – ۴۹۰ میلی‌لیتر</span></h2>
-            </a>
-          </li>
-          <li class="prd-card">
-            <a href="./product-detail.html">
-              <span class="prd-pic"><img src="./assets/images/product-18.jpg" width="492" height="492" alt="نوشیدنی آب گواوا با تکه‌های میوه" loading="lazy" decoding="async">
-                <span class="prd-perks" aria-hidden="true">
-                  <span class="prd-perks__item prd-perks__item--oem" title="OEM/ODM"><img src="./assets/images/ic-oem-odm.svg" alt="" width="40" height="40" loading="lazy"></span>
-                  <span class="prd-perks__item" title="نمونه رایگان"><img src="./assets/images/ic-free-sample.svg" alt="" width="24" height="24" loading="lazy"></span>
-                  <span class="prd-perks__item" title="طراحی رایگان برچسب"><img src="./assets/images/ic-free-label.svg" alt="" width="24" height="24" loading="lazy"></span>
-                  <span class="prd-perks__item" title="حداقل سفارش انعطاف‌پذیر"><img src="./assets/images/ic-flexible-moq.svg" alt="" width="24" height="24" loading="lazy"></span>
-                </span>
-              </span>
-              <span class="sr-only">OEM/ODM</span>
-              <h2 class="prd-name t-18"><span class="prd-name__cate">نوشیدنی‌های میوه‌ای</span><span class="prd-name__text">نوشیدنی ۱۰۰٪ آب گواوا با تکه‌های میوه – ۴۹۰ میلی‌لیتر</span></h2>
-            </a>
-          </li>
         </ul>
 
         <div class="catalog-pagination">
@@ -736,7 +647,7 @@
               <li><a class="catalog-pagination__link" href="?q=کیوی&amp;page=2" rel="next">بعدی</a></li>
             </ul>
           </nav>
-          <p class="catalog-pagination__summary"><bdi>1–18</bdi>&nbsp; از <bdi>568</bdi> محصول</p>
+          <p class="catalog-pagination__summary"><bdi>1–12</bdi>&nbsp; از <bdi>568</bdi> محصول</p>
         </div>
       </section>
     </main>
@@ -807,7 +718,7 @@
 
       <div class="ft-bottom">
         <div class="ft-bottom__grid">
-          <span class="ft-bottom__follow"><bdi dir="ltr">Follow us:</bdi></span>
+          <span class="ft-bottom__follow">ما را دنبال کنید:</span>
           <div class="ft-bottom__cell ft-bottom__cell--copy">
             <p class="txt"><span class="ft-logo__mark" role="img" aria-label="RITA Food &amp; Drink Co.,Ltd"></span><bdi>&copy; 2026</bdi></p>
           </div>

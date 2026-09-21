@@ -8,18 +8,16 @@ import ExhibitionModule from "./modules/ExhibitionModule.js";
 import CertificatesModule from "./modules/CertificatesModule.js";
 import RangeModule from "./modules/RangeModule.js";
 import BannerCtaModule from "./modules/BannerCtaModule.js";
-import ProductCategoriesModule from "./modules/ProductCategoriesModule.js";
 import CatalogSelectsModule from "./modules/CatalogSelectsModule.js";
 import CatalogFiltersModule from "./modules/CatalogFiltersModule.js";
 import ProductContentModule from "./modules/ProductContentModule.js";
 import ProductRelatedModule from "./modules/ProductRelatedModule.js";
+import BlogRelatedModule from "./modules/BlogRelatedModule.js";
 import ContactModule from "./modules/ContactModule.js";
 import BrandPopupModule from "./modules/BrandPopupModule.js";
 import AwardsModule from "./modules/AwardsModule.js";
 import HistoryModule from "./modules/HistoryModule.js";
 import StoryGalleryModule from "./modules/StoryGalleryModule.js";
-import ProcessModule from "./modules/ProcessModule.js";
-import ScrollRailModule from "./modules/ScrollRailModule.js";
 import TypeCycleModule from "./modules/TypeCycleModule.js";
 import PackagingModule from "./modules/PackagingModule.js";
 import FaqModule from "./modules/FaqModule.js";
@@ -153,18 +151,16 @@ const init = () => {
     CertificatesModule,
     RangeModule,
     BannerCtaModule,
-    ProductCategoriesModule,
     CatalogSelectsModule,
     CatalogFiltersModule,
     ProductContentModule,
     ProductRelatedModule,
+    BlogRelatedModule,
     ContactModule,
     BrandPopupModule,
     AwardsModule,
     HistoryModule,
     StoryGalleryModule,
-    ProcessModule,
-    ScrollRailModule,
     TypeCycleModule,
     PackagingModule,
     FaqModule,

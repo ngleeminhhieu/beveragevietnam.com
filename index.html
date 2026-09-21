@@ -498,7 +498,7 @@
         <p class="sec-desc t-18">دسته‌بندی‌های نوشیدنی طراحی‌شده برای برند شما را بشناسید؛ از نوشیدنی انرژی‌زا و آبمیوه تا نوشابه گازدار و شیر گیاهی، راهکارهای ما به شما کمک می‌کنند <bdi>(OEM/ODM)</bdi> در عرضه محصولاتی که مصرف‌کننده می‌پسندد.</p>
       </div>
 
-      <ul class="cat-grid">
+      <ul class="cat-grid is-brdinline-end">
         <li class="cat-card">
           <a class="cat-card__link" href="./product-category.html">
             <span class="cat-card__media"><img class="cat-card__img" src="./assets/images/cate-soft.jpg" width="392"
@@ -585,7 +585,7 @@
               class="btn__icon" src="./assets/images/ic-arrow.svg" alt="" aria-hidden="true"></span></a>
       </div>
 
-      <ul class="prd-grid">
+      <ul class="prd-grid is-brdinline-end">
         <li class="prd-card">
           <a href="./product-detail.html">
             <span class="prd-pic"><img src="./assets/images/product-5.jpg" width="392" height="413" alt=""
@@ -739,22 +739,18 @@
       </ul>
     </section>
 
-    <section class="sec-why" id="sec-why" style="--why-count: 7" aria-labelledby="sec-why-title">
+    <section class="sec-why" id="sec-why" aria-labelledby="sec-why-title">
       <div class="why__pin">
         <div class="why-map" aria-hidden="true">
           <span class="why-map__base"></span>
           <span class="why-map__sweep"></span>
         </div>
 
-        <div class="why__track whyTrackJS">
+        <div class="why__track">
           <div class="why__intro">
             <h2 class="why__title t-48" id="sec-why-title">چرا <bdi>RITA</bdi> ؟</h2>
             <p class="why__desc t-18">شرکت پیشرو در تولید و تأمین نوشیدنی‌های ممتاز در ویتنام. از فرمولاسیون تا حمل نهایی، ریتا نوشیدنی‌های ممتاز را در حجم بالا عرضه می‌کند و تحقیق و توسعه داخلی را با تولید انعطاف‌پذیر به‌صورت
               <bdi>OEM/ODM</bdi>و کیفیت آماده صادرات برای برندها در سراسر جهان.
-            </p>
-            <p class="why__hint">
-              <span class="why__hint-icon" aria-hidden="true"></span>
-              <span class="why__hint-text">برای دیدن دلایل بکشید</span>
             </p>
           </div>
 
@@ -824,8 +820,6 @@
             </div>
           </article>
         </div>
-
-        <div class="why__progress" aria-hidden="true"><span class="why__progress-fill"></span></div>
       </div>
     </section>
 
@@ -953,7 +947,7 @@
       </div>
 
       <div class="certificate-shell">
-        <div class="card-grid is-cert">
+        <div class="card-grid is-brdinline-end is-cert">
           <a class="card-item is-cert" href="./assets/images/cef-digicert_Rita_ISO_22K.webp" data-fancybox="certificates" data-caption="ISO 22000" aria-label="مشاهده گواهینامه ISO 22000">
             <span class="cert-logo"><img src="./assets/images/cef-logo-iso-22000.png" alt="ISO 22000" loading="lazy" decoding="async"></span>
             <div class="cert-meta">
@@ -1206,13 +1200,7 @@
       </div>
 
       <div class="services__grid">
-<article class="service-card service-card--oem">
-          <figure class="service-card__media">
-            <span class="service-card__media-frame">
-              <img src="./assets/images/oem-front.jpg" width="672" height="499"
-                alt="انواع بسته‌بندی نوشیدنی در دسترس برای خدمات OEM" loading="lazy" decoding="async">
-            </span>
-          </figure>
+        <article class="service-card service-card--oem">
           <div class="service-card__body">
             <h3 class="service-card__title t-32">راهکارهای نوشیدنی <bdi dir="ltr">OEM</bdi><br><span
                 class="service-card__accent service-card__accent--oem">فرمول شما، تولید ما</span></h3>
@@ -1222,9 +1210,21 @@
                     aria-hidden="true"></span></a>
             </div>
           </div>
+          <figure class="service-card__media">
+            <span class="service-card__media-frame">
+              <img src="./assets/images/oem-front.jpg" width="672" height="499"
+                alt="انواع بسته‌بندی نوشیدنی در دسترس برای خدمات OEM" loading="lazy" decoding="async">
+            </span>
+          </figure>
         </article>
 
-                <article class="service-card service-card--odm">
+        <article class="service-card service-card--odm">
+          <figure class="service-card__media">
+            <span class="service-card__media-frame">
+              <img src="./assets/images/odm-front.jpg" width="672" height="499"
+                alt="بسته‌بندی نوشیدنی آماده سفارشی‌سازی با خدمات ODM" loading="lazy" decoding="async">
+            </span>
+          </figure>
           <div class="service-card__body">
             <h3 class="service-card__title t-32">راهکارهای نوشیدنی <bdi dir="ltr">ODM</bdi><br><span
                 class="service-card__accent service-card__accent--odm">آماده، با برند شما</span></h3>
@@ -1234,18 +1234,20 @@
                     aria-hidden="true"></span></a>
             </div>
           </div>
-          <figure class="service-card__media">
-            <span class="service-card__media-frame">
-              <img src="./assets/images/odm-front.jpg" width="672" height="499"
-                alt="بسته‌بندی نوشیدنی آماده سفارشی‌سازی با خدمات ODM" loading="lazy" decoding="async">
-            </span>
-          </figure>
         </article>
       </div>
     </section>
 
     <section class="sec-news news" aria-labelledby="sec-news-title">
       <div class="news__layout">
+        <div class="news__aside">
+          <div class="news__aside-sticky">
+            <h2 class="sec-title t-48" id="sec-news-title">اخبار</h2>
+            <p class="sec-desc t-18">ببینید چگونه وضع موجود را تغییر می‌دهیم، استانداردها را بالاتر می‌بریم و با محصول و آدم‌ها گام‌های بلندی به سوی آینده‌ای پایدارتر برمی‌داریم.</p>
+            <a class="btn second" href="./blog.html"><span class="txt"><span class="txt-inner">مشاهده همه اخبار</span><img class="btn__icon" src="./assets/images/ic-arrow.svg" alt="" aria-hidden="true"></span></a>
+          </div>
+        </div>
+
         <ul class="news__list">
           <li>
             <article class="news-card">
@@ -1388,14 +1390,6 @@
             </article>
           </li>
         </ul>
-
-        <div class="news__aside">
-          <div class="news__aside-sticky">
-            <h2 class="sec-title t-48" id="sec-news-title">اخبار</h2>
-            <p class="sec-desc t-18">ببینید چگونه وضع موجود را تغییر می‌دهیم، استانداردها را بالاتر می‌بریم و با محصول و آدم‌ها گام‌های بلندی به سوی آینده‌ای پایدارتر برمی‌داریم.</p>
-            <a class="btn second" href="./blog.html"><span class="txt"><span class="txt-inner">مشاهده همه اخبار</span><img class="btn__icon" src="./assets/images/ic-arrow.svg" alt="" aria-hidden="true"></span></a>
-          </div>
-        </div>
       </div>
     </section>
   </main>
@@ -1468,7 +1462,7 @@
 
     <div class="ft-bottom">
       <div class="ft-bottom__grid">
-        <span class="ft-bottom__follow"><bdi dir="ltr">Follow us:</bdi></span>
+        <span class="ft-bottom__follow">ما را دنبال کنید:</span>
         <div class="ft-bottom__cell ft-bottom__cell--copy">
           <p class="txt"><span class="ft-logo__mark" role="img" aria-label="RITA Food &amp; Drink Co.,Ltd"></span><bdi>&copy; 2026</bdi></p>
         </div>
