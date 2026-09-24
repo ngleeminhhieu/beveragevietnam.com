@@ -1,4 +1,4 @@
-const DESKTOP_QUERY = "(min-width: 1441px)";
+const DESKTOP_QUERY = "(min-width: 1201px)";
 
 export default function HistoryModule() {
   const section = document.querySelector(".histTimelineJS");
@@ -11,7 +11,7 @@ export default function HistoryModule() {
   const count = shots.length;
   if (!count) return;
 
-  // Below 1441px the two wrappers flatten with display: contents, so order is
+  // Below 1201px the two wrappers flatten with display: contents, so order is
   // what interleaves each photo with the panel that belongs to it.
   shots.forEach((shot, index) => {
     shot.style.order = String(index * 2 + 1);

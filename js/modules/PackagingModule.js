@@ -67,7 +67,7 @@ export default function PackagingModule() {
     grabCursor: true,
     watchOverflow: true,
     breakpoints: {
-      1441: { slidesPerView: 5 },
+      1201: { slidesPerView: 5 },
     },
   };
 

@@ -18,31 +18,35 @@
             <a class="custom-logo-link" href="./index.html" aria-label="صفحه اصلی RITA"><span class="hd-logo__mark"></span></a>
           </div>
           <nav class="hd-nav" aria-label="منوی اصلی">
-            <div class="menu-nav">
-              <ul class="menu-list">
-                <li class="menu-item"><a class="menu-link" href="./index.html">صفحه اصلی</a></li>
-                <li class="menu-item mega" data-mega="about">
-                  <a class="menu-link" href="./our-story.html">درباره ما<svg class="icon icon--chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></a>
-                </li>
-                <li class="menu-item mega" data-mega="products">
-                  <a class="menu-link" href="./products.html">محصولات<svg class="icon icon--chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></a>
-                </li>
-                <li class="menu-item mega" data-mega="services">
-                  <a class="menu-link" href="./oem-service.html">خدمات<svg class="icon icon--chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></a>
-                </li>
-                <li class="menu-item"><a class="menu-link" href="./blog.html">اخبار</a></li>
-                <li class="menu-item"><a class="menu-link" href="./contact.html">تماس با ما</a></li>
-              </ul>
-            </div>
+            <ul class="menu-list menu-list--start">
+              <li class="menu-item"><a class="menu-link" href="./index.html">صفحه اصلی</a></li>
+              <li class="menu-item mega" data-mega="about">
+                <a class="menu-link" href="./our-story.html">درباره ما<svg class="icon icon--chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></a>
+              </li>
+              <li class="menu-item mega" data-mega="products">
+                <a class="menu-link" href="./products.html">محصولات<svg class="icon icon--chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></a>
+              </li>
+            </ul>
+            <ul class="menu-list menu-list--end">
+              <li class="menu-item mega" data-mega="services">
+                <a class="menu-link" href="./oem-service.html">خدمات<svg class="icon icon--chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></a>
+              </li>
+              <li class="menu-item"><a class="menu-link" href="./blog.html">اخبار</a></li>
+              <li class="menu-item"><a class="menu-link" href="./contact.html">تماس با ما</a></li>
+            </ul>
           </nav>
-        <p class="hd-ticker">
-          <img class="hd-ticker__flag" src="./assets/images/flag-vn.gif" width="345" height="230" alt="ویتنام" decoding="async">
-          <span class="hd-ticker__lead">تولیدکننده پیشروی نوشیدنی</span>
-          <span class="hd-ticker__type typeCycleJS" aria-hidden="true" data-words="آبمیوه‌ها|نوشیدنی‌های گازدار|آب نارگیل|نوشیدنی‌های چای|نوشیدنی‌های شیری|نوشیدنی‌های انرژی‌زا|نوشیدنی‌های قهوه|نوشیدنی‌های آلوئه‌ورا|آب آشامیدنی"></span>
-          <span class="sr-only">آبمیوه‌ها، نوشیدنی‌های گازدار، آب نارگیل، نوشیدنی‌های چای، نوشیدنی‌های شیری، نوشیدنی‌های انرژی‌زا، نوشیدنی‌های قهوه، نوشیدنی‌های آلوئه‌ورا و آب آشامیدنی.</span>
-        </p>
           <div class="hd-right">
-            <button class="hd-tool hd-tool--contact headerActionOpenJS" type="button" data-header-action-open="contact" aria-label="باز کردن فرم تماس" aria-controls="header-contact" aria-expanded="false">
+            <details class="hd-catalogue">
+            <summary class="hd-tool hd-tool--catalogue" aria-label="کاتالوگ" title="کاتالوگ">
+              <img class="hd-icon hd-icon--sticky" src="./assets/images/ic-catalogue-sticky.svg" alt="" aria-hidden="true">
+              <img class="hd-icon hd-icon--transparent" src="./assets/images/ic-catalogue.svg" alt="" aria-hidden="true">
+            </summary>
+            <div class="page-catalogue">
+              <a class="page-catalogue__link" href="https://rita.com.vn/Profile-Rita/index.html" target="_blank" rel="noopener"><small>01</small><span>دسته‌بندی‌ها</span></a>
+              <a class="page-catalogue__link" href="https://rita.com.vn/Profile-Rita/brochure.html" target="_blank" rel="noopener"><small>02</small><span>کاتالوگ</span></a>
+            </div>
+          </details>
+          <button class="hd-tool hd-tool--contact headerActionOpenJS" type="button" data-header-action-open="contact" aria-label="باز کردن فرم تماس" aria-controls="header-contact" aria-expanded="false">
               <img class="hd-icon hd-icon--sticky" src="./assets/images/ic-contact-sticky.svg" alt="" aria-hidden="true">
               <img class="hd-icon hd-icon--transparent" src="./assets/images/ic-contact.svg" alt="" aria-hidden="true">
             </button>
@@ -227,71 +231,35 @@
           <div class="hd-mega__wrap">
             <div class="hd-mega__inner">
               <div class="hd-mega__panel" data-mega-panel="about">
-                <div class="hd-mega__intro">
-                  <div class="hd-mega__thumb"><img src="./assets/images/profile.jpg" alt="درباره ما" loading="lazy"></div>
-                  <div class="hd-mega__intro-foot">
-                    <div class="hd-mega__intro-text">
-                      <p class="hd-mega__intro-title">درباره ما</p>
-                      <p class="hd-mega__intro-desc">RITA بیش از ۲۰ سال است که نوشیدنی‌های ممتاز را در ویتنام تولید و صادر می‌کند. داستان ما، گواهینامه‌ها و نقاط عطف ما را بشناسید.</p>
-                    </div>
-                    <div class="btn-box"><a class="btn pri" href="./our-story.html"><span class="txt"><span class="txt-inner">بیشتر بدانید</span><img class="btn__icon" src="./assets/images/ic-arrow.svg" alt="" aria-hidden="true"></span></a></div>
-                  </div>
-                </div>
-                <div class="hd-mega__menu">
-                  <ul class="hd-mega__list">
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./our-story.html">داستان ما</a></li>
-                    <li class="hd-mega__item"><a class="hd-mega__link active" href="./our-certificates.html" aria-current="page">گواهینامه‌های ما</a></li>
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./our-activities.html">فعالیت‌های ما</a></li>
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./our-history.html">تاریخچه ما</a></li>
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./our-brands.html">برندهای ما</a></li>
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./our-awards.html">جوایز ما</a></li>
-                  </ul>
-                </div>
+                <ul class="hd-mega__list">
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./our-story.html">داستان ما</a></li>
+                  <li class="hd-mega__item"><a class="hd-mega__link active" href="./our-certificates.html" aria-current="page">گواهینامه‌های ما</a></li>
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./our-activities.html">فعالیت‌های ما</a></li>
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./our-history.html">تاریخچه ما</a></li>
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./our-brands.html">برندهای ما</a></li>
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./our-awards.html">جوایز ما</a></li>
+                </ul>
               </div>
 
               <div class="hd-mega__panel" data-mega-panel="products">
-                <div class="hd-mega__intro">
-                  <div class="hd-mega__thumb"><img src="./assets/images/supermarket.jpg" alt="محصولات" loading="lazy"></div>
-                  <div class="hd-mega__intro-foot">
-                    <div class="hd-mega__intro-text">
-                      <p class="hd-mega__intro-title">محصولات</p>
-                      <p class="hd-mega__intro-desc">از آبمیوه‌های استوایی تا نوشیدنی‌های فراسودمند، هر محصول را با دقت و بر پایه بالاترین استانداردهای کیفیت تولید و بسته‌بندی می‌کنیم.</p>
-                    </div>
-                    <div class="btn-box"><a class="btn pri" href="./products.html"><span class="txt"><span class="txt-inner">بیشتر بدانید</span><img class="btn__icon" src="./assets/images/ic-arrow.svg" alt="" aria-hidden="true"></span></a></div>
-                  </div>
-                </div>
-                <div class="hd-mega__menu">
-                  <ul class="hd-mega__list">
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">آبمیوه‌ها</a></li>
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">آلوئه‌ورا</a></li>
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">آب نارگیل</a></li>
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">نوشیدنی‌های شیری</a></li>
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">نوشیدنی‌های گازدار</a></li>
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">نوشیدنی‌های قهوه</a></li>
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">نوشیدنی‌های اسپارکلینگ</a></li>
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">نوشیدنی‌های انرژی‌زا</a></li>
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">نوشیدنی‌های چای</a></li>
-                  </ul>
-                </div>
+                <ul class="hd-mega__list">
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">آبمیوه‌ها</a></li>
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">آلوئه‌ورا</a></li>
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">آب نارگیل</a></li>
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">نوشیدنی‌های شیری</a></li>
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">نوشیدنی‌های گازدار</a></li>
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">نوشیدنی‌های قهوه</a></li>
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">نوشیدنی‌های اسپارکلینگ</a></li>
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">نوشیدنی‌های انرژی‌زا</a></li>
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./product-category.html">نوشیدنی‌های چای</a></li>
+                </ul>
               </div>
 
               <div class="hd-mega__panel" data-mega-panel="services">
-                <div class="hd-mega__intro">
-                  <div class="hd-mega__thumb"><img src="./assets/images/services.jpg" alt="خدمات" loading="lazy"></div>
-                  <div class="hd-mega__intro-foot">
-                    <div class="hd-mega__intro-text">
-                      <p class="hd-mega__intro-title">خدمات</p>
-                      <p class="hd-mega__intro-desc">خدمات تولید OEM و ODM طراحی‌شده برای برند شما، از توسعه فرمولاسیون تا تولید و بسته‌بندی.</p>
-                    </div>
-                    <div class="btn-box"><a class="btn pri" href="./oem-service.html"><span class="txt"><span class="txt-inner">بیشتر بدانید</span><img class="btn__icon" src="./assets/images/ic-arrow.svg" alt="" aria-hidden="true"></span></a></div>
-                  </div>
-                </div>
-                <div class="hd-mega__menu">
-                  <ul class="hd-mega__list">
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./oem-service.html">خدمات OEM</a></li>
-                    <li class="hd-mega__item"><a class="hd-mega__link" href="./odm-service.html">خدمات ODM</a></li>
-                  </ul>
-                </div>
+                <ul class="hd-mega__list">
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./oem-service.html">خدمات OEM</a></li>
+                  <li class="hd-mega__item"><a class="hd-mega__link" href="./odm-service.html">خدمات ODM</a></li>
+                </ul>
               </div>
             </div>
           </div>
@@ -393,7 +361,7 @@
 
       <section class="overview ss-pd" aria-labelledby="cert-overview-title">
         <div class="page-shell">
-          <h2 class="overview__title t-32" id="cert-overview-title">یک کارخانه و همه استانداردهایی که بازار شما می‌طلبد. در هر منطقه‌ای که بفروشید، <bdi>RITA</bdi> از پیش گواهینامه‌های لازم را دارد تا محصول شما به قفسه فروشگاه‌ها برسد.</h2>
+          <h2 class="overview__title t-40" id="cert-overview-title">یک کارخانه و همه استانداردهایی که بازار شما می‌طلبد. در هر منطقه‌ای که بفروشید، <bdi>RITA</bdi> از پیش گواهینامه‌های لازم را دارد تا محصول شما به قفسه فروشگاه‌ها برسد.</h2>
           <ul class="overview__stats" aria-label="آمار گواهینامه‌های RITA">
             <li class="overview-stat">
               <p class="overview-stat__value"><span data-count="100">0</span><span class="overview-stat__unit">%</span></p>
@@ -417,77 +385,77 @@
             <a class="card-item is-cert" href="./assets/images/cef-digicert_Rita_ISO_22K.webp" data-fancybox="certificates" data-caption="ISO 22000" aria-label="مشاهده گواهینامه ISO 22000">
               <span class="cert-logo"><img src="./assets/images/cef-logo-iso-22000.png" alt="ISO 22000" loading="lazy" decoding="async"></span>
               <div class="cert-meta">
-                <h3 class="cert-meta__name t-18"><bdi dir="ltr">ISO 22000</bdi></h3>
+                <h3 class="cert-meta__name t-20"><bdi dir="ltr">ISO 22000</bdi></h3>
                 <span class="cert-meta__scope">جهانی</span>
               </div>
             </a>
             <a class="card-item is-cert" href="./assets/images/cef-digicert_Rita_HACCP.webp" data-fancybox="certificates" data-caption="HACCP" aria-label="مشاهده گواهینامه HACCP">
               <span class="cert-logo"><img src="./assets/images/cef-logo-haccp.png" alt="HACCP" loading="lazy" decoding="async"></span>
               <div class="cert-meta">
-                <h3 class="cert-meta__name t-18"><bdi dir="ltr">HACCP</bdi></h3>
+                <h3 class="cert-meta__name t-20"><bdi dir="ltr">HACCP</bdi></h3>
                 <span class="cert-meta__scope">جهانی</span>
               </div>
             </a>
             <a class="card-item is-cert" href="./assets/images/cef-digicert_Rita_GMP.webp" data-fancybox="certificates" data-caption="GMP — Good Manufacturing Practice" aria-label="مشاهده گواهینامه GMP">
               <span class="cert-logo"><img src="./assets/images/cef-logo-gmp.png" alt="GMP" loading="lazy" decoding="async"></span>
               <div class="cert-meta">
-                <h3 class="cert-meta__name t-18"><bdi dir="ltr">GMP</bdi></h3>
+                <h3 class="cert-meta__name t-20"><bdi dir="ltr">GMP</bdi></h3>
                 <span class="cert-meta__scope">جهانی</span>
               </div>
             </a>
             <a class="card-item is-cert" href="./assets/images/cef-digicert_Rita_HALAL-HCA.webp" data-fancybox="certificates" data-caption="HALAL HCA" aria-label="مشاهده گواهینامه HALAL HCA">
               <span class="cert-logo"><img src="./assets/images/cef-logo-halal-hca.png" alt="HALAL HCA" loading="lazy" decoding="async"></span>
               <div class="cert-meta">
-                <h3 class="cert-meta__name t-18"><bdi dir="ltr">HALAL HCA</bdi></h3>
+                <h3 class="cert-meta__name t-20"><bdi dir="ltr">HALAL HCA</bdi></h3>
                 <span class="cert-meta__scope">استرالیا</span>
               </div>
             </a>
             <a class="card-item is-cert" href="./assets/images/cef-digicert_Rita_HALAL-MY.webp" data-fancybox="certificates" data-caption="HALAL Malaysia" aria-label="مشاهده گواهینامه HALAL Malaysia">
               <span class="cert-logo"><img src="./assets/images/cef-logo-halal-my.png" alt="HALAL Malaysia" loading="lazy" decoding="async"></span>
               <div class="cert-meta">
-                <h3 class="cert-meta__name t-18"><bdi dir="ltr">HALAL Malaysia</bdi></h3>
+                <h3 class="cert-meta__name t-20"><bdi dir="ltr">HALAL Malaysia</bdi></h3>
                 <span class="cert-meta__scope">مالزی</span>
               </div>
             </a>
             <a class="card-item is-cert" href="./assets/images/cef-digicert_Rita_BRCGS.webp" data-fancybox="certificates" data-caption="BRCGS Food Safety" aria-label="مشاهده گواهینامه BRCGS">
               <span class="cert-logo"><img src="./assets/images/cef-logo-brcgs.png" alt="BRCGS Food Safety" loading="lazy" decoding="async"></span>
               <div class="cert-meta">
-                <h3 class="cert-meta__name t-18"><bdi dir="ltr">BRCGS Food Safety</bdi></h3>
+                <h3 class="cert-meta__name t-20"><bdi dir="ltr">BRCGS Food Safety</bdi></h3>
                 <span class="cert-meta__scope">جهانی</span>
               </div>
             </a>
             <a class="card-item is-cert" href="./assets/images/cef-digicert_Rita_FSSC.webp" data-fancybox="certificates" data-caption="FSSC 22000" aria-label="مشاهده گواهینامه FSSC 22000">
               <span class="cert-logo"><img src="./assets/images/cef-logo-fssc-22000.png" alt="FSSC 22000" loading="lazy" decoding="async"></span>
               <div class="cert-meta">
-                <h3 class="cert-meta__name t-18"><bdi dir="ltr">FSSC 22000</bdi></h3>
+                <h3 class="cert-meta__name t-20"><bdi dir="ltr">FSSC 22000</bdi></h3>
                 <span class="cert-meta__scope">جهانی</span>
               </div>
             </a>
             <a class="card-item is-cert" href="./assets/images/cef-digicert_Rita_AIJIN.webp" data-fancybox="certificates" data-caption="AIJN — European Fruit Juice Association" aria-label="مشاهده گواهینامه AIJN">
               <span class="cert-logo"><img src="./assets/images/cef-logo-aijn.png" alt="AIJN" loading="lazy" decoding="async"></span>
               <div class="cert-meta">
-                <h3 class="cert-meta__name t-18"><bdi dir="ltr">AIJN</bdi></h3>
+                <h3 class="cert-meta__name t-20"><bdi dir="ltr">AIJN</bdi></h3>
                 <span class="cert-meta__scope">اتحادیه اروپا</span>
               </div>
             </a>
             <a class="card-item is-cert is-hidden" href="./assets/images/cef-digicert_Rita-BSI.webp" data-caption="BSI" aria-label="مشاهده گواهینامه BSI" hidden aria-hidden="true">
               <span class="cert-logo"><img src="./assets/images/cef-logo-bsi.png" alt="BSI" loading="lazy" decoding="async"></span>
               <div class="cert-meta">
-                <h3 class="cert-meta__name t-18"><bdi dir="ltr">BSI</bdi></h3>
+                <h3 class="cert-meta__name t-20"><bdi dir="ltr">BSI</bdi></h3>
                 <span class="cert-meta__scope">بریتانیا</span>
               </div>
             </a>
             <a class="card-item is-cert is-hidden" href="./assets/images/cef-logo-ifs.png" data-caption="IFS Food" aria-label="مشاهده گواهینامه IFS Food" hidden aria-hidden="true">
               <span class="cert-logo"><img src="./assets/images/cef-logo-ifs.png" alt="IFS Food" loading="lazy" decoding="async"></span>
               <div class="cert-meta">
-                <h3 class="cert-meta__name t-18"><bdi dir="ltr">IFS Food</bdi></h3>
+                <h3 class="cert-meta__name t-20"><bdi dir="ltr">IFS Food</bdi></h3>
                 <span class="cert-meta__scope">اروپا</span>
               </div>
             </a>
             <a class="card-item is-cert is-hidden" href="./assets/images/cef-logo-smeta.png" data-caption="SMETA" aria-label="مشاهده گواهینامه SMETA" hidden aria-hidden="true">
               <span class="cert-logo"><img src="./assets/images/cef-logo-smeta.png" alt="SMETA" loading="lazy" decoding="async"></span>
               <div class="cert-meta">
-                <h3 class="cert-meta__name t-18"><bdi dir="ltr">SMETA</bdi></h3>
+                <h3 class="cert-meta__name t-20"><bdi dir="ltr">SMETA</bdi></h3>
                 <span class="cert-meta__scope">جهانی</span>
               </div>
             </a>
@@ -500,17 +468,6 @@
     </main>
 
     <aside class="page-actions" aria-label="راه‌های تماس سریع">
-    <details class="page-actions__catalogue">
-      <summary class="page-actions__item page-actions__item--catalogue" aria-label="کاتالوگ" title="کاتالوگ">
-        <img class="page-actions__icon" src="./assets/images/ic-catalogue.svg" alt="" aria-hidden="true">
-        <img class="page-actions__icon page-actions__icon--close" src="./assets/images/ic-close.svg" alt="" aria-hidden="true">
-        <span class="page-actions__label" aria-hidden="true">کاتالوگ</span>
-      </summary>
-      <div class="page-catalogue">
-        <a class="page-catalogue__link" href="https://rita.com.vn/Profile-Rita/index.html" target="_blank" rel="noopener"><small>01</small><span>دسته‌بندی‌ها</span></a>
-        <a class="page-catalogue__link" href="https://rita.com.vn/Profile-Rita/brochure.html" target="_blank" rel="noopener"><small>02</small><span>کاتالوگ</span></a>
-      </div>
-    </details>
       <a class="page-actions__item page-actions__item--phone" href="tel:+842743784788" aria-label="تماس با ما">
         <img src="./assets/images/floating-phone.svg" alt="" aria-hidden="true">
       <span class="page-actions__label" aria-hidden="true"><bdi dir="ltr">(+84) 274 3784 788</bdi></span>
@@ -552,14 +509,14 @@
           </ol>
         </div>
         <div class="ft-cell ft-cell--pair">
-          <div class="wrapper"><p class="ft-tt t-24">نشانی دفتر مرکزی</p><ul class="ft-add t-18"><li class="ft-add__item"><p class="txt"><a href="https://maps.app.goo.gl/se2kEnWbQ3jPCg6U9" target="_blank" rel="noopener"><bdi>No. 08, Thong Nhat Boulevard, Song Than 2 Industrial Park, Di An Ward, Ho Chi Minh City, Vietnam</bdi></a></p></li></ul></div>
-          <div class="wrapper"><p class="ft-tt t-24">شناسه مالیاتی</p><ul class="ft-add t-18"><li class="ft-add__item"><p class="txt"><bdi>3700574950</bdi></p></li></ul></div>
-          <div class="wrapper"><p class="ft-tt t-24">فکس</p><ul class="ft-add t-18"><li class="ft-add__item"><p class="txt"><a href="tel:+842743784799"><bdi>(+84) 274 3784 799</bdi></a></p></li></ul></div>
+          <div class="wrapper"><p class="ft-tt t-24">نشانی دفتر مرکزی</p><ul class="ft-add"><li class="ft-add__item"><p class="txt"><a href="https://maps.app.goo.gl/se2kEnWbQ3jPCg6U9" target="_blank" rel="noopener"><bdi>No. 08, Thong Nhat Boulevard, Song Than 2 Industrial Park, Di An Ward, Ho Chi Minh City, Vietnam</bdi></a></p></li></ul></div>
+          <div class="wrapper"><p class="ft-tt t-24">شناسه مالیاتی</p><ul class="ft-add"><li class="ft-add__item"><p class="txt"><bdi>3700574950</bdi></p></li></ul></div>
+          <div class="wrapper"><p class="ft-tt t-24">فکس</p><ul class="ft-add"><li class="ft-add__item"><p class="txt"><a href="tel:+842743784799"><bdi>(+84) 274 3784 799</bdi></a></p></li></ul></div>
         </div>
         <div class="ft-cell ft-cell--pair">
-          <div class="wrapper"><p class="ft-tt t-24">استعلام فروش</p><ul class="ft-add t-18"><li class="ft-add__item"><p class="txt"><a href="tel:+842743784788"><bdi>(+84) 274 3784 788</bdi></a></p></li></ul></div>
-          <div class="wrapper"><p class="ft-tt t-24">دفتر</p><ul class="ft-add t-18"><li class="ft-add__item"><p class="txt"><a href="tel:+842743784688"><bdi>(+84) 274 3784 688</bdi></a></p></li></ul></div>
-          <div class="wrapper"><p class="ft-tt t-24">ایمیل</p><ul class="ft-add t-18"><li class="ft-add__item"><p class="txt"><a href="mailto:marketing@rita.com.vn"><bdi>marketing@rita.com.vn</bdi></a></p></li></ul></div>
+          <div class="wrapper"><p class="ft-tt t-24">استعلام فروش</p><ul class="ft-add"><li class="ft-add__item"><p class="txt"><a href="tel:+842743784788"><bdi>(+84) 274 3784 788</bdi></a></p></li></ul></div>
+          <div class="wrapper"><p class="ft-tt t-24">دفتر</p><ul class="ft-add"><li class="ft-add__item"><p class="txt"><a href="tel:+842743784688"><bdi>(+84) 274 3784 688</bdi></a></p></li></ul></div>
+          <div class="wrapper"><p class="ft-tt t-24">ایمیل</p><ul class="ft-add"><li class="ft-add__item"><p class="txt"><a href="mailto:marketing@rita.com.vn"><bdi>marketing@rita.com.vn</bdi></a></p></li></ul></div>
         </div>
       </div>
 

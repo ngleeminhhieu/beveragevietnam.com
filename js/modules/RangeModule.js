@@ -1,5 +1,5 @@
 const MOBILE_BREAKPOINT = "(max-width: 600px)";
-const TABLET_BREAKPOINT = "(max-width: 1440px)";
+const TABLET_BREAKPOINT = "(max-width: 1200px)";
 const AUTO_DELAY = 5000;
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);

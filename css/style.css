@@ -82,6 +82,7 @@
      fill what the padding leaves, so --hd-logo-edge is also where its outer edge
      lands -- which is what the product rail sets itself against. */
   --hd-logo-w: 108px;
+  --hd-tool-w: 75px;
   --hd-logo-edge: 13px;
   --pd-sc: 6rem;
   --pd: 4rem;
@@ -103,6 +104,20 @@
   --media-vignette: radial-gradient(64.95% 100% at 50% 0%, rgba(0, 0, 0, 0) 49.6%, rgba(51, 51, 51, 0.2) 100%);
   --rtl-navbar-h: 76px;
   --rtl-side-control-offset: 23px;
+  /* Persian type ramp: metadata -> lead copy -> card -> section -> page title. */
+  --type-meta: 1.3rem;
+  --type-ui: 1.4rem;
+  --type-lead: 1.8rem;
+  --type-title-sm: 2rem;
+  --type-card: 2.4rem;
+  --type-heading: 3.2rem;
+  --type-section: 4rem;
+  --type-display: 4.8rem;
+  --type-button: clamp(16px, 1.32vw, 20px);
+  --leading-display: 1.2;
+  --leading-section: 1.25;
+  --leading-title: 1.35;
+  --leading-body: 1.7;
 }
 
 *,
@@ -238,23 +253,27 @@ img {
 }
 
 .t-18 {
-  font-size: 1.8rem;
+  font-size: var(--type-lead);
 }
 
 .t-20 {
-  font-size: 2rem;
+  font-size: var(--type-title-sm);
 }
 
 .t-24 {
-  font-size: 2.4rem;
+  font-size: var(--type-card);
 }
 
 .t-32 {
-  font-size: 3.2rem;
+  font-size: var(--type-heading);
+}
+
+.t-40 {
+  font-size: var(--type-section);
 }
 
 .t-48 {
-  font-size: 4.8rem;
+  font-size: var(--type-display);
 }
 
 .icon {
@@ -295,7 +314,7 @@ img {
   border-radius: 0;
   background-color: var(--btn-background);
   font-family: Tahoma, Arial, sans-serif;
-  font-size: clamp(16px, 1.32vw, 20px);
+  font-size: var(--type-button);
   font-weight: 700;
   text-align: center;
   text-transform: none;
@@ -316,6 +335,7 @@ img {
   gap: clamp(12px, 1.05vw, 16px);
   padding: 12px clamp(20px, 1.85vw, 28px);
   color: var(--btn-color);
+  font-size: inherit;
   font-weight: 700;
   line-height: 1.2;
   transition: color 0.3s ease;
@@ -371,28 +391,36 @@ img {
   border: 0;
   /* No will-change here: it would make the header a containing block for its
      own position: fixed children, collapsing the mobile menu and its overlay
-     to the height of the header. */
-  transition: border-bottom-color 0.2s ease;
+     to the height of the header. The transform below has that same power, which
+     is why it is only ever set while the bar is off screen -- and HeaderModule
+     refuses to take it off screen while a panel is open. */
+  transition: transform 0.35s ease;
 }
 
-.hd.default,
-body.sticky .hd {
-  border-bottom: 1px solid var(--color-line);
+/* Away on the way down, back on the way up. */
+.hd.is-hidden {
+  transform: translateY(-100%);
 }
 
+/* The rule under the header lives here in every state and only changes colour.
+   It used to move between .hd and .hd-bar as the page left the top: the bar is
+   height + border-box, so handing its border back and forth resized its content
+   by a pixel and the logo and nav hopped as the first scroll landed. Keeping one
+   border of one width also keeps .hd exactly --rtl-navbar-h tall, which is the
+   offset every sticky panel on the site is positioned against. */
 .hd-bar {
   position: relative;
   z-index: 2;
   width: 100%;
   height: var(--rtl-navbar-h);
-  border-bottom: 0;
+  border-bottom: 1px solid var(--color-line);
   background: #ffffff;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
-  transition: background-color 0.35s ease;
+  transition: background-color 0.35s ease, border-bottom-color 0.2s ease;
 }
 
 .hd.hd-transparent .hd-bar {
-  border-bottom: 1px solid var(--color-line-inverse);
+  border-bottom-color: var(--color-line-inverse);
   background: transparent;
   box-shadow: none;
   -webkit-backdrop-filter: none;
@@ -401,11 +429,6 @@ body.sticky .hd {
 
 .hd .hd-bar {
   border-bottom: 1px solid var(--color-line);
-}
-
-.hd.default .hd-bar,
-body.sticky .hd .hd-bar {
-  border-bottom: 0;
 }
 
 .hd-main {
@@ -473,16 +496,8 @@ body.sticky .hd .hd-bar {
 }
 
 .hd-nav,
-.hd-nav .menu-nav,
 .hd-nav .menu-list {
   height: 100%;
-}
-
-/* One rule around the whole nav rather than a line per menu item. */
-.hd-nav {
-  width: calc(50% - var(--hd-logo-w));
-  flex: 0 0 auto;
-  border-inline: 1px solid var(--color-line);
 }
 
 .hd-nav .menu-list {
@@ -507,11 +522,11 @@ body.sticky .hd .hd-bar {
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: 0 clamp(12px, 1.15vw, 20px);
+  padding: 0 clamp(10px, 0.8vw, 14px);
   color: #333333;
   font-family: Tahoma, Arial, sans-serif;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1;
   text-transform: none;
   white-space: nowrap;
@@ -521,7 +536,6 @@ body.sticky .hd .hd-bar {
 .hd-nav .menu-link.active,
 .hd-nav .current-menu-item>.menu-link {
   color: inherit;
-  font-weight: 400;
 }
 
 .hd-nav .menu-link .icon {
@@ -540,87 +554,6 @@ body.sticky .hd .hd-bar {
   color: #ffffff;
 }
 
-/* Fills the gap the header leaves between the nav and the tool cluster. */
-.hd-ticker {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-  flex: 1;
-  min-width: 0;
-  padding-inline: clamp(2rem, 2.5vw, 4rem);
-  white-space: nowrap;
-  color: var(--color-text);
-  font-size: 1.4rem;
-  font-weight: 700;
-}
-
-/* Keep the GIF animation; key out its white background without tinting the flag. */
-.hd-ticker__flag {
-  display: block;
-  width: 3.2rem;
-  height: auto;
-  flex-shrink: 0;
-  filter: url("../assets/images/flag-transparency.svg#remove-white");
-}
-
-/* On a narrow desktop the gap shrinks, so the static half gives way first and
-   the cycling categories stay readable. */
-.hd-ticker__lead {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.hd-ticker__type {
-  flex-shrink: 0;
-  color: var(--color-pri);
-}
-
-/* Caret is a literal pipe like the reference pen, so it scales with the text. */
-.hd-ticker__type::after {
-  margin-inline-start: 0.1rem;
-  content: "|";
-  animation: hdCaretBlink 1.5s infinite;
-}
-
-@keyframes hdCaretBlink {
-  0%,
-  50%,
-  100% {
-    opacity: 1;
-  }
-
-  25%,
-  75% {
-    opacity: 0;
-  }
-}
-
-/* Over the hero the bar goes transparent, so the line follows the nav to white. */
-.hd.hd-transparent .hd-ticker {
-  color: #ffffff;
-}
-
-/* The flag keeps its own colours; only the type follows the text to white. */
-.hd.hd-transparent .hd-ticker__type {
-  color: #ffffff;
-}
-
-/* Tablet and below swap the nav for the burger, so the bar has no gap left. */
-@media screen and (max-width: 1440px) {
-  .hd-ticker {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hd-ticker__type::after {
-    animation: none;
-  }
-}
-
 .hd-right {
   display: flex;
   align-items: center;
@@ -635,9 +568,9 @@ body.sticky .hd .hd-bar {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 75px;
+  width: var(--hd-tool-w);
   height: 100%;
-  flex: 0 0 75px;
+  flex: 0 0 var(--hd-tool-w);
   border: 0;
   border-inline-start: 1px solid var(--color-line);
   border-radius: 0;
@@ -667,6 +600,108 @@ body.sticky .hd .hd-bar {
   width: 22px;
   height: 22px;
   filter: brightness(0);
+}
+
+/* Desktop: logo dead centre with three menu items either side, and the tool
+   group split two and two around them. .hd-nav and .hd-right give up their own
+   boxes so their children become items of .hd-main and can be ordered against
+   each other; both get them back below 1201, where .hd-nav is hidden outright
+   and .hd-right is a group again. */
+@media screen and (min-width: 1201px) {
+  .hd-main {
+    --hd-menu-item-gap: clamp(2.8rem, 2vw, 3.6rem);
+    --hd-logo-menu-gap: clamp(4rem, 3vw, 5.6rem);
+  }
+
+  .hd-nav,
+  .hd-right {
+    display: contents;
+  }
+
+  .hd-main .hd-catalogue {
+    order: 1;
+  }
+
+  .hd-main .hd-tool--contact {
+    order: 2;
+  }
+
+  .hd-main .menu-list--start {
+    order: 3;
+  }
+
+  .hd-main .hd-logo {
+    order: 4;
+  }
+
+  .hd-main .menu-list--end {
+    order: 5;
+  }
+
+  .hd-main .hd-tool--alibaba {
+    order: 6;
+  }
+
+  .hd-main .hd-sbtn {
+    order: 7;
+  }
+
+  /* The two halves share what the logo and the tools leave, so the logo lands
+     on the centre line whatever the labels are. Each half then packs its items
+     against the logo rather than spreading across its share, so the slack
+     collects out by the tools and the three names read as one group either
+     side of the mark. */
+  .hd-main .menu-list {
+    flex: 1;
+    gap: var(--hd-menu-item-gap);
+    padding-inline: 0;
+  }
+
+  .hd-main .menu-link {
+    padding-inline: 0;
+  }
+
+  .hd-main .menu-list--start {
+    justify-content: flex-end;
+    padding-inline-end: var(--hd-logo-menu-gap);
+  }
+
+  .hd-main .menu-list--end {
+    justify-content: flex-start;
+    padding-inline-start: var(--hd-logo-menu-gap);
+  }
+
+  .hd-catalogue,
+  .hd-main .hd-tool--contact,
+  .hd-main .hd-tool--alibaba {
+    flex: 0 0 auto;
+  }
+
+  /* Separators follow the header's own convention -- every item draws the line
+     on its start edge, which in RTL is its right. .hd-nav used to carry a pair
+     around the whole menu; with no box of its own the first list carries the one
+     that closes it against the tools beside it.
+
+     Nothing is drawn on either side of the logo: that means no start edge on the
+     logo itself, and none on the list that follows it, since a list's start edge
+     is the logo's other side. The logo stands free between the two halves. */
+  .hd-main .menu-list--start {
+    border-inline-start: 1px solid var(--color-line);
+  }
+
+  .hd.hd-transparent .hd-main .menu-list--start {
+    border-color: var(--color-line-inverse);
+  }
+
+  .hd-main .hd-logo,
+  .hd-main .menu-list--end {
+    border-inline-start: 0;
+  }
+
+  /* First in the row now, so its start edge is the edge of the screen. */
+  .hd-main .hd-tool--catalogue {
+    border-inline-start: 0;
+  }
 }
 
 .hd.hd-transparent .hd-right>.hd-sbtn img {
@@ -717,46 +752,20 @@ body.sticky .hd .hd-bar {
 
 /* Both edges live on this seam; the bar yields while a panel is open. */
 .hd[data-active-mega] .hd-bar {
-  border-bottom: 0;
+  border-bottom-color: transparent;
 }
 
+/* A strip of links dropped under the bar, not a panel: one row, centred, and
+   scrolling sideways on its own when a menu carries more names than fit. */
 .hd-mega__panel {
   display: none;
-  align-items: stretch;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0;
   width: 100%;
 }
 
 .hd[data-active-mega="about"] .hd-mega__panel[data-mega-panel="about"],
 .hd[data-active-mega="products"] .hd-mega__panel[data-mega-panel="products"],
 .hd[data-active-mega="services"] .hd-mega__panel[data-mega-panel="services"] {
-  display: grid;
-}
-
-.hd-mega__intro {
-  display: grid;
-  gap: 0;
-  border-inline-end: 1px solid var(--color-line);
-  grid-column: span 2;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.hd-mega__thumb {
-  width: auto;
-  margin-block: 4rem;
-  margin-inline-end: clamp(1.6rem, 1.8vw, 2.8rem);
-  aspect-ratio: 19 / 15;
-  padding: 8px;
-  overflow: hidden;
-  border: 1px solid var(--color-line);
-  background: #ffffff;
-}
-
-.hd-mega__thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  display: block;
 }
 
 /* Lattice hairlines at exactly 25 / 50 / 75 percent. Each is drawn by the column
@@ -764,73 +773,42 @@ body.sticky .hd .hd-bar {
    same convention the footer, the service bands and the news list use, so every
    vertical rule on the page lands on the same pixel. The thumb is left out of it:
    it already carries its own 1px picture frame. */
-.hd-mega__intro-foot {
-  display: flex;
-  padding: 4rem clamp(1.6rem, 1.8vw, 2.8rem);
-  border-inline-start: 1px solid var(--color-line);
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 1.6rem;
-}
-
-.hd-mega__intro-text {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.hd-mega__intro-title {
-  color: var(--color-text);
-  font-size: 3.2rem;
-  font-weight: 700;
-}
-
-.hd-mega__intro-desc {
-  color: var(--color-sub);
-  font-size: 1.5rem;
-  line-height: 1.6;
-}
-
-.hd-mega__intro-foot .btn {
-  min-height: 4.2rem;
-}
-
-.hd-mega__intro-foot .btn .txt {
-  padding: 0.8rem 2rem;
-  font-size: 1.4rem;
-}
-
-.hd-mega__menu {
-  position: relative;
-  min-width: 0;
-  padding-block: 4rem;
-  padding-inline-start: clamp(1.6rem, 1.8vw, 2.8rem);
-  grid-column: span 2;
-}
-
-.hd-mega__menu::before {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  inset-inline-start: 50%;
-  border-inline-start: 1px solid var(--color-line);
-  content: "";
-}
-
 .hd-mega__list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-content: start;
-  gap: 1.6rem clamp(2.4rem, 2.86vw, 4rem);
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  gap: 0;
+  scrollbar-width: none;
+}
+
+.hd-mega__list::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Never squeezed: once the names outrun the bar the row overflows and scrolls,
+   which is what justify-content stops doing for itself at that point. */
+.hd-mega__item {
+  flex: 0 0 auto;
+}
+
+/* A level below the bar above it, so it reads lighter and smaller rather than
+   heavier: the strip used to be 600 and uppercase against a 400 parent, which
+   put the child ahead of its own heading. */
+.hd-mega__link {
+  padding: 2rem clamp(1.4rem, 1.6vw, 2.8rem);
+  font-size: 1.5rem;
+  font-weight: 400;
+  white-space: nowrap;
 }
 
 .hd-mega__link {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  color: var(--color-text);
-  font-weight: 600;
-  text-transform: uppercase;
+  color: var(--color-des);
   transition: color 0.3s;
 }
 
@@ -1146,50 +1124,38 @@ body.sticky .hd .hd-bar {
   }
 }
 
-@media (min-width: 1441px) and (max-width: 1536px) {
+@media (min-width: 1201px) and (max-width: 1536px) {
   html {
     font-size: 58%;
   }
 }
 
-@media screen and (min-width: 1441px) {
+@media screen and (min-width: 1201px) {
   .burger {
     display: none;
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   :root {
     --pd-sc: 4.8rem;
     --pd: 2rem;
     --section-gap: 48px;
     --head-gap: 24px;
     --rtl-navbar-h: 68px;
+    --hd-tool-w: 64px;
+    --type-lead: 1.6rem;
+    --type-title-sm: 1.8rem;
+    --type-card: 2rem;
+    --type-heading: 2.6rem;
+    --type-section: 3.2rem;
+    --type-display: 4rem;
+    --type-button: 1.5rem;
   }
 
   html,
   body {
     overscroll-behavior-x: none;
-  }
-
-  .t-18 {
-    font-size: 1.6rem;
-  }
-
-  .t-20 {
-    font-size: 1.8rem;
-  }
-
-  .t-24 {
-    font-size: 2rem;
-  }
-
-  .t-32 {
-    font-size: 2.6rem;
-  }
-
-  .t-48 {
-    font-size: 4rem;
   }
 
   .btn {
@@ -1198,7 +1164,6 @@ body.sticky .hd .hd-bar {
 
   .btn .txt {
     padding: 0.8rem 2rem;
-    font-size: 1.4rem;
   }
 
 }
@@ -1207,43 +1172,22 @@ body.sticky .hd .hd-bar {
   :root {
     --section-gap: 32px;
     --head-gap: 16px;
+    --type-lead: clamp(1.5rem, 2.1vw, 1.6rem);
+    --type-title-sm: clamp(1.6rem, 2.35vw, 1.8rem);
+    --type-card: clamp(1.8rem, 2.61vw, 2rem);
+    --type-heading: clamp(2.2rem, 3.39vw, 2.6rem);
+    --type-section: clamp(2.8rem, 4.17vw, 3.2rem);
+    --type-display: clamp(3.2rem, 5.22vw, 4rem);
+    --type-button: clamp(1.4rem, 1.96vw, 1.5rem);
   }
 
   body {
     font-size: 14px;
   }
-}
-
-@media screen and (max-width: 600px) {
-  .t-18 {
-    font-size: 1.5rem;
-  }
-
-  .t-20 {
-    font-size: 1.6rem;
-  }
-
-  .t-24 {
-    font-size: 1.8rem;
-  }
-
-  .t-32 {
-    font-size: 2.2rem;
-  }
-
-  .t-48 {
-    font-size: 3.2rem;
-  }
 
   .btn {
     min-height: 4rem;
-    font-size: 1.2rem;
   }
-
-  .btn .txt {
-    font-size: 1.2rem;
-  }
-
 }
 
 /* Full-screen exhibition hero. */
@@ -1407,7 +1351,7 @@ body.sticky .hd .hd-bar {
 /* Shared full-width section and bordered-grid components. */
 .sec-cat,
 .sec-new {
-  --sec-gutter: clamp(2rem, 3.6vw, 11rem);
+  --sec-gutter: var(--hd-tool-w);
   padding-inline: var(--sec-gutter);
 }
 
@@ -1438,9 +1382,9 @@ body.sticky .hd .hd-bar {
 }
 
 .sec-title {
-  color: #333333;
+  color: #333333;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: var(--leading-section);
 }
 
 .sec-desc {
@@ -1691,10 +1635,10 @@ body.sticky .hd .hd-bar {
   box-shadow: inset 0 0 0 0.2rem var(--color-pri);
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .sec-cat,
   .sec-new {
-    --sec-gutter: clamp(1.8rem, 3.2vw, 3.6rem);
+    --sec-gutter: var(--hd-tool-w);
   }
 
   .sec-cat {
@@ -1716,7 +1660,7 @@ body.sticky .hd .hd-bar {
 @media screen and (max-width: 767px) {
   .sec-cat,
   .sec-new {
-    --sec-gutter: clamp(1.2rem, 4vw, 2rem);
+    --sec-gutter: var(--hd-tool-w);
   }
 
   .sec-head--split {
@@ -1778,7 +1722,7 @@ body.sticky .hd .hd-bar {
 
 }
 
-@media screen and (min-width: 1441px) {
+@media screen and (min-width: 1201px) {
   /* .main clips its overflow, which would kill the pinned panel. */
   .home-page {
     overflow: visible;
@@ -1914,9 +1858,9 @@ body.sticky .hd .hd-bar {
 }
 
 .mile__title {
-  color: var(--color-text);
+  color: var(--color-text);
   font-weight: 700;
-  line-height: 1.15;
+  line-height: var(--leading-section);
 }
 
 .mile__desc {
@@ -1939,7 +1883,7 @@ body.sticky .hd .hd-bar {
 
 /* Below this the panel cannot pin -- .main still clips its overflow there -- and
    two columns are too narrow anyway. */
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .mile__layout {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -1967,90 +1911,53 @@ body.sticky .hd .hd-bar {
   }
 }
 
-/* Reasons: a heading row across the top and the cards three across under it,
-   over the dot map. It was a pinned horizontal rail before -- a tall section,
-   a sticky panel and ScrollRailModule mapping page scroll onto --why-x. The
-   grid replaces all of it, so the section is as tall as its contents and the
-   module is gone. */
+/* Reasons: a heading row across the top and the cards three across under it.
+   It was a pinned horizontal rail on a dotted world map before -- a tall
+   section, a sticky panel, ScrollRailModule mapping scroll onto --why-x, and a
+   234 KB SVG carried as a mask so a tinted layer could show through its holes.
+   The grid replaces the mechanics and the map is simply gone: a mask forces its
+   own compositing layer for a decoration nothing reads. */
 .sec-why {
   scroll-margin-block-start: var(--rtl-navbar-h);
   --why-line: var(--color-line);
   --why-gap: clamp(1.6rem, 2vw, 3.2rem);
-  --why-lit: var(--color-pri);
-  --why-map-h: 62%;
   --why-pad: clamp(2rem, 4vw, 8rem);
-  position: relative;
   border-block-end: 1px solid var(--why-line);
   background: #ffffff;
 }
 
 .why__pin {
-  position: relative;
   padding-block: clamp(3.2rem, 5vw, 6rem);
 }
 
-/* The map is the section's own backdrop; the cards are opaque and keep --why-gap
-   between them, so it shows through the gaps and around the edges. */
-.why-map {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  height: var(--why-map-h);
-  margin-block: auto;
-  overflow: hidden;
-  -webkit-mask-image: url("../assets/images/dot-map.svg");
-  mask-image: url("../assets/images/dot-map.svg");
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  pointer-events: none;
-}
-
-.why-map__base {
-  position: absolute;
-  inset: 0;
-  background: var(--color-text);
-  opacity: 0.2;
-}
-
-/* Parked at one end now that no scroll progress drives it. */
-.why-map__sweep {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right,
-      transparent 0%,
-      var(--why-lit) 45%,
-      var(--why-lit) 55%,
-      transparent 100%);
-  opacity: 0.85;
-  transform: translateX(-50%);
-}
-
 .why__track {
-  position: relative;
-  z-index: 1;
   display: grid;
   padding-inline: var(--why-pad);
   gap: var(--why-gap);
-  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-/* The heading reads as a heading: its own full-width row above the cards.
-   1 / -1 holds at every breakpoint, so the steps below need no override. */
 .why__intro {
   display: flex;
   flex-direction: column;
-  grid-column: 1 / -1;
   text-align: right;
 }
 
+/* One block, not six boxes: the cards share their rules the way every other
+   lattice on the site does -- the container closes the top and start edges,
+   each card closes its own end and bottom. Contained rather than full bleed
+   (the track has --why-pad either side), so the start edge is drawn here
+   outright instead of being opted into with .is-brdinline-end. */
+.why-cards {
+  display: grid;
+  border-block-start: 1px solid var(--why-line);
+  border-inline-start: 1px solid var(--why-line);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .why__title {
-  color: var(--color-text);
-  font-weight: 800;
-  line-height: 1.25;
+  color: var(--color-text);
+  font-weight: 700;
+  line-height: var(--leading-section);
 }
 
 .why__desc {
@@ -2067,7 +1974,8 @@ body.sticky .hd .hd-bar {
   min-width: 0;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid var(--why-line);
+  border-inline-end: 1px solid var(--why-line);
+  border-block-end: 1px solid var(--why-line);
   background: #ffffff;
 }
 
@@ -2122,14 +2030,14 @@ body.sticky .hd .hd-bar {
   }
 }
 
-@media screen and (max-width: 1440px) {
-  .why__track {
+@media screen and (max-width: 1200px) {
+  .why-cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media screen and (max-width: 767px) {
-  .why__track {
+  .why-cards {
     grid-template-columns: minmax(0, 1fr);
   }
 }
@@ -2140,7 +2048,7 @@ body.sticky .hd .hd-bar {
 .overview,
 .catalog-page,
 .product-detail-page {
-  --page-gutter: clamp(2rem, 4vw, 8rem);
+  --page-gutter: var(--hd-tool-w);
 }
 
 .sec-cert {
@@ -2311,7 +2219,8 @@ body.sticky .hd .hd-bar {
 }
 
 .page-banner {
-  --page-gutter: clamp(2rem, 4vw, 8rem);
+  --page-gutter: var(--hd-tool-w);
+  position: relative;
   background: #ffffff;
 }
 
@@ -2332,7 +2241,7 @@ body.sticky .hd .hd-bar {
   padding: 0;
   list-style: none;
   color: #a2a2a2;
-  font-size: 1.4rem;
+  font-size: var(--type-ui);
 }
 
 .breadcrumb-item,
@@ -2356,12 +2265,28 @@ body.sticky .hd .hd-bar {
   height: 1.7rem;
 }
 
-/* Sits under the photo as a strip in the site's own hairline language. The start
-   inset matches .page-banner__content so the trail lines up under the title.
-   Scoped to .page-banner -- blog-detail, product-detail and searching reuse this
-   class with no banner above it and keep their own inset. */
+/* Overlay the trail on the banner while standalone detail breadcrumbs keep their
+   original white strip. */
 .page-banner .page-banner__breadcrumb {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
   padding-inline: 3.2rem var(--page-gutter);
+  border-block-end: 0;
+}
+
+.page-banner .breadcrumb-list {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.page-banner .breadcrumb-item--current {
+  color: #ffffff;
+}
+
+.page-banner .breadcrumb-icon {
+  filter: brightness(0) invert(1);
 }
 
 .catalog-hero .page-banner__breadcrumb {
@@ -2372,6 +2297,7 @@ body.sticky .hd .hd-bar {
   position: relative;
   height: clamp(44rem, calc(38vw + 6rem), 64rem);
   overflow: hidden;
+  border-block-end: 1px solid var(--cl-bd);
   color: #ffffff;
 }
 
@@ -2401,7 +2327,7 @@ body.sticky .hd .hd-bar {
 .page-banner__title {
   color: #ffffff;
   font-weight: 700;
-  line-height: 1.08;
+  line-height: var(--leading-display);
 }
 
 .page-banner__desc {
@@ -2413,9 +2339,13 @@ body.sticky .hd .hd-bar {
 
 /* Only at this width does the header go transparent, so only here does the banner
    run up under it -- below it the bar is opaque and would simply cover the photo. */
-@media screen and (min-width: 1441px) {
+@media screen and (min-width: 1201px) {
   .inner-page.banner-page {
     padding-top: 0 !important;
+  }
+
+  .page-banner .page-banner__breadcrumb {
+    top: var(--rtl-navbar-h);
   }
 }
 
@@ -2428,7 +2358,7 @@ body.sticky .hd .hd-bar {
   margin-inline: auto;
   color: var(--color-text);
   font-weight: 700;
-  line-height: 1.45;
+  line-height: 1.3;
 }
 
 .overview__stats {
@@ -2487,7 +2417,7 @@ body.sticky .hd .hd-bar {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .sec-cert,
   .certificate-list,
   .overview,
@@ -2499,7 +2429,7 @@ body.sticky .hd .hd-bar {
   .awards-page,
   .activities-page,
   .history-page {
-    --page-gutter: clamp(1.8rem, 3.2vw, 3.6rem);
+    --page-gutter: var(--hd-tool-w);
   }
 
   .card-grid {
@@ -2514,11 +2444,16 @@ body.sticky .hd .hd-bar {
     padding-inline: 1.6rem;
   }
 
+  .page-banner .page-banner__breadcrumb {
+    padding-inline: 1.6rem;
+  }
+
   /* A long trail scrolls sideways instead of wrapping onto a second line. */
   .breadcrumb-list {
     min-width: 0;
     flex-wrap: nowrap;
     overflow-x: auto;
+    font-size: 1.3rem;
     scrollbar-width: none;
     overscroll-behavior-x: contain;
     white-space: nowrap;
@@ -2548,7 +2483,7 @@ body.sticky .hd .hd-bar {
   .awards-page,
   .activities-page,
   .history-page {
-    --page-gutter: clamp(1.2rem, 4vw, 2rem);
+    --page-gutter: var(--hd-tool-w);
   }
 
   .card-grid,
@@ -2571,6 +2506,10 @@ body.sticky .hd .hd-bar {
 
   .page-banner__breadcrumb {
     min-height: 4rem;
+    padding-inline: var(--page-gutter);
+  }
+
+  .page-banner .page-banner__breadcrumb {
     padding-inline: var(--page-gutter);
   }
 
@@ -2766,7 +2705,7 @@ body.sticky .hd .hd-bar {
   line-height: 1.45;
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .range__head {
     padding-inline: 3.6rem;
   }
@@ -2932,7 +2871,7 @@ body.sticky .hd .hd-bar {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .services__head {
     width: 58%;
     padding-inline: 3.6rem;
@@ -3155,7 +3094,7 @@ section:has(+ .sec-banner-cta) {
   transform: translateX(-5rem);
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .banner-cta__panel {
     --banner-cta-height: auto;
     min-height: 0;
@@ -3226,6 +3165,7 @@ section:has(+ .sec-banner-cta) {
 /* Full-width latest news carousel. */
 .sec-news {
   --news-line: var(--color-line);
+  --sec-gutter: var(--hd-tool-w);
   border-block-start: 1px solid var(--news-line);
 }
 
@@ -3237,25 +3177,48 @@ section:has(+ .sec-banner-cta) {
    it. The list is the first track, so in RTL it takes the right and the panel
    the left. The divider is the list's inline-end border -- the same side every
    other lattice on the site draws on, so the lines stack up on one pixel. */
+/* Head band over the list, not a column beside it. The row itself is
+   .sec-head--split, the same component .sec-new uses right above -- this adds
+   only what is local: the gutter, and the rule that closes the band against the
+   grid. The gutter is declared on the section so the head can sit inside it
+   while the cards below still run the full width.
+
+   It was var(--page-gutter) before, which .home-page never declares: an unknown
+   custom property is invalid at computed-value time and takes the whole padding
+   shorthand with it, so the band lost its side inset and its vertical air both,
+   and the link ended up hard against the edge of the screen. */
 .news__layout {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
 }
 
+.news__head {
+  padding: clamp(3.2rem, 4vw, 6rem) var(--sec-gutter);
+  border-block-end: 1px solid var(--news-line);
+}
+
+/* Four across, stacked cards -- the same shape and ladder .blog-grid uses, now
+   that the list runs the full width instead of half of it. */
 .news__list {
   display: grid;
   min-width: 0;
   margin: 0;
   padding: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   list-style: none;
 }
 
 .news__list>li {
   min-width: 0;
+  border-inline-end: 1px solid var(--news-line);
   border-block-end: 1px solid var(--news-line);
 }
 
-.news__list>li:last-child {
+.news__list>li:nth-child(4n) {
+  border-inline-end: 0;
+}
+
+.news__list>li:nth-last-child(-n + 4) {
   border-block-end: 0;
 }
 
@@ -3263,18 +3226,6 @@ section:has(+ .sec-banner-cta) {
    a picture at 50% of it is a quarter of the page. The two blog grids are four
    across instead, where a cell is already that quarter, so their cards keep the
    plain stacked form. */
-.news__list .news-card {
-  flex-direction: row;
-  align-items: stretch;
-}
-
-.news__list .news-card__media {
-  width: 50%;
-  aspect-ratio: 440 / 300;
-  flex: 0 0 auto;
-  border-inline-end: 1px solid var(--news-line);
-}
-
 .news-card__body {
   display: flex;
   min-width: 0;
@@ -3283,67 +3234,40 @@ section:has(+ .sec-banner-cta) {
   justify-content: center;
 }
 
-.news__list .news-card__title {
-  min-height: 0;
-  flex: 0 0 auto;
-  border-block-start: 0;
+/* Two across. The cell ending each row gives up its end rule, and the two that
+   were the last row at four across take their bottom rule back. */
+@media screen and (max-width: 1200px) {
+  .news__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .news__list>li:nth-child(2n) {
+    border-inline-end: 0;
+  }
+
+  .news__list>li:nth-last-child(-n + 4) {
+    border-block-end: 1px solid var(--news-line);
+  }
+
+  .news__list>li:nth-last-child(-n + 2) {
+    border-block-end: 0;
+  }
 }
 
-.news__aside {
-  min-width: 0;
-  border-inline-end: 1px solid var(--news-line);
-}
-
-.news__aside-sticky {
-  position: sticky;
-  top: var(--rtl-navbar-h);
-  display: flex;
-  min-height: calc(100dvh - var(--rtl-navbar-h));
-  flex-direction: column;
-  justify-content: center;
-  padding: clamp(3.2rem, 4vw, 6rem) clamp(2rem, 4vw, 8rem);
-}
-
-.news__aside-sticky .sec-desc {
-  margin-top: clamp(1.6rem, 2vw, 3rem);
-}
-
-.news__aside-sticky .btn {
-  margin-top: clamp(2.4rem, 3vw, 4rem);
-}
-
-@media screen and (max-width: 1440px) {
-  .news__layout {
+/* One across: no column rule left to draw, and every card but the last closes
+   its own row. */
+@media screen and (max-width: 767px) {
+  .news__list {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .news__list .news-card__media {
-    width: clamp(18rem, 32%, 34rem);
-  }
-
-  .news__aside {
+  .news__list>li {
     border-inline-end: 0;
     border-block-end: 1px solid var(--news-line);
   }
 
-  .news__aside-sticky {
-    min-height: 0;
-    position: static;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .news__list .news-card {
-    flex-direction: column;
-  }
-
-  .news__list .news-card__media {
-    width: 100%;
-    border-inline-end: 0;
-  }
-
-  .news__list .news-card__title {
-    border-block-start: 1px solid var(--color-line);
+  .news__list>li:last-child {
+    border-block-end: 0;
   }
 }
 
@@ -3394,7 +3318,7 @@ section:has(+ .sec-banner-cta) {
   align-items: center;
   gap: 0.6rem;
   color: var(--color-sub);
-  font-size: 1.3rem;
+  font-size: var(--type-meta);
   font-weight: 400;
 }
 
@@ -3406,7 +3330,7 @@ section:has(+ .sec-banner-cta) {
 }
 
 .news-card__title {
-  min-height: 9.8rem;
+  min-height: calc(2.9em + 2.8rem + 1px);
   border-block-start: 1px solid var(--color-line);
   flex: 1 1 auto;
   padding: 1.4rem 2.4rem;
@@ -3435,10 +3359,9 @@ section:has(+ .sec-banner-cta) {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .news-card__title {
-    min-height: 10rem;
-    padding: 2.4rem 2rem;
+    padding-inline: 2rem;
   }
 }
 
@@ -3447,16 +3370,19 @@ section:has(+ .sec-banner-cta) {
     --news-media-pad: 0.6rem;
   }
 
+  .news-card__meta-item {
+    font-size: 1.2rem;
+  }
+
   .news-card__title {
-    min-height: 9rem;
-    padding: 2rem 1.6rem;
+    padding-inline: 1.6rem;
   }
 }
 
 /* International exhibitions marquee and global presence map. */
 .sec-exhi {
   --grid-line: var(--color-line);
-  --sec-gutter: clamp(2rem, 3.6vw, 11rem);
+  --sec-gutter: var(--hd-tool-w);
   position: relative;
   width: 100%;
   border-block: 1px solid var(--grid-line);
@@ -3646,15 +3572,15 @@ a.sec-exhi__pin img {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .sec-exhi {
-    --sec-gutter: clamp(1.8rem, 3.2vw, 3.6rem);
+    --sec-gutter: var(--hd-tool-w);
   }
 }
 
 @media screen and (max-width: 767px) {
   .sec-exhi {
-    --sec-gutter: clamp(1.2rem, 4vw, 2rem);
+    --sec-gutter: var(--hd-tool-w);
   }
 }
 
@@ -3720,13 +3646,14 @@ main > :last-child {
 
 .ft-cats a {
   color: #4a4a4a;
-  font-size: 1.6rem;
+  font-size: inherit;
   line-height: 1.45;
 }
 
 .ft-tt {
   margin-bottom: 10px;
   color: #333333;
+  font-size: var(--type-title-sm);
   font-weight: 700;
   line-height: 1.45;
 }
@@ -3755,7 +3682,7 @@ main > :last-child {
   gap: 13px;
   padding: 7px 0;
   color: #4a4a4a;
-  font-size: 17px;
+  font-size: inherit;
   line-height: 1.4;
 }
 
@@ -3865,16 +3792,26 @@ main > :last-child {
   flex-direction: column;
   gap: clamp(10px, 0.95vw, 14px);
   transform: translateY(-50px);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease, visibility 0.4s;
 }
 
-@media screen and (min-width: 1441px) {
+/* Out to the left on the way down, pushed back in on the way up -- the same
+   signal that hides the header, handled in HeaderModule so there is one scroll
+   listener rather than two. */
+.page-actions.is-hidden {
+  visibility: hidden;
+  opacity: 0;
+  transform: translate(calc(-100% - 6rem), -50px);
+}
+
+@media screen and (min-width: 1201px) {
   .page-actions {
     --page-action-size: clamp(38px, 2.8vw, 42px);
     left: calc(var(--rtl-side-control-offset) + env(safe-area-inset-left, 0px));
   }
 }
 
-@media screen and (min-width: 768px) and (max-width: 1440px) {
+@media screen and (min-width: 768px) and (max-width: 1200px) {
   .page-actions {
     bottom: calc(clamp(16px, 3vw, 42px) + 50px + env(safe-area-inset-bottom, 0px));
   }
@@ -3901,36 +3838,31 @@ main > :last-child {
 
 /* Catalogue sits in the floating rail now. <details> carries the open/close
    state and its keyboard handling, so this needs no script of its own. */
-.page-actions__catalogue {
+/* Open state swaps the glyph for a cross, so the button doubles as its own
+   close control. The shared close icon is drawn black, hence the invert. */
+/* Catalogue moved up into the header. <details> keeps it working without a
+   line of script; the panel hangs under the tool instead of beside it, and
+   inline-end is the physical left here, which is the side of the viewport the
+   header's tool group sits on. */
+.hd-catalogue {
   position: relative;
+  height: 100%;
 }
 
-.page-actions__item--catalogue {
-  border: 0;
-  background: var(--color-pri);
+.hd-tool--catalogue {
   cursor: pointer;
   list-style: none;
 }
 
-.page-actions__item--catalogue::-webkit-details-marker {
+.hd-tool--catalogue::-webkit-details-marker {
   display: none;
 }
 
-/* Open state swaps the glyph for a cross, so the button doubles as its own
-   close control. The shared close icon is drawn black, hence the invert. */
-.page-actions__icon--close {
-  display: none;
-  filter: brightness(0) invert(1);
-}
-
-.page-actions__catalogue[open] .page-actions__icon {
-  display: none;
-}
-
-.page-actions__catalogue[open] .page-actions__icon--close {
-  display: block;
-  width: 16px;
-  height: 16px;
+.hd-catalogue .page-catalogue {
+  top: 100%;
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+  left: auto;
 }
 
 .page-catalogue {
@@ -3997,11 +3929,6 @@ main > :last-child {
 /* The panel takes the same spot, so the label stands down while it is open --
    hover included. One level deeper than the :hover rule on purpose, otherwise
    that one wins on source order and the label reappears under the cursor. */
-.page-actions__catalogue[open] .page-actions__item--catalogue .page-actions__label {
-  opacity: 0;
-  transform: translateX(-6px);
-}
-
 .page-actions__item--top {
   border: 1px solid var(--color-line);
   background: #ffffff;
@@ -4049,7 +3976,7 @@ main > :last-child {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .main {
     padding-top: var(--rtl-navbar-h) !important;
   }
@@ -4115,8 +4042,8 @@ main > :last-child {
 
   .hd-tool,
   .hd-right>.hd-sbtn {
-    width: 64px;
-    flex-basis: 64px;
+    width: var(--hd-tool-w);
+    flex-basis: var(--hd-tool-w);
   }
 
   .hd-right .burger {
@@ -4183,6 +4110,7 @@ main > :last-child {
   :root {
     --rtl-mobile-logo-w: clamp(82px, 24vw, 102px);
     --rtl-mobile-tool-w: min(58px, calc((100vw - var(--rtl-mobile-logo-w)) / 5));
+    --hd-tool-w: var(--rtl-mobile-tool-w);
   }
 
   .hd-logo {
@@ -4327,7 +4255,7 @@ main > :last-child {
   .ft-quick a {
     gap: 8px;
     padding: 5px 0;
-    font-size: 15px;
+    font-size: inherit;
   }
 
   .page-actions {
@@ -4891,6 +4819,7 @@ main > :last-child {
 .hd-contact__submit.btn .txt {
   gap: 12px;
   padding: 10px 18px;
+  font-size: inherit;
 }
 
 @media all {
@@ -4898,7 +4827,7 @@ main > :last-child {
     background: #f3f3f3;
   }}
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .hd-actionbar__logo {
     width: 112px;
     flex-basis: 112px;
@@ -5086,6 +5015,7 @@ main > :last-child {
 .catalog-page {
   --catalog-line: var(--color-line);
   --catalog-filter-icon-size: 2.4rem;
+  --catalog-control-font-size: 1.8rem;
   --catalog-toolbar-height: 76px;
   background: #ffffff;
 }
@@ -5226,7 +5156,7 @@ main > :last-child {
   background-color: transparent;
   color: #333333;
   font-family: Tahoma, Arial, sans-serif;
-  font-size: 1.8rem;
+  font-size: var(--catalog-control-font-size);
   text-align: right;
 }
 
@@ -5317,7 +5247,7 @@ main > :last-child {
   overflow: hidden;
   color: #333333;
   font-family: Tahoma, Arial, sans-serif;
-  font-size: 1.8rem;
+  font-size: var(--catalog-control-font-size);
   line-height: 1.35 !important;
   text-align: right;
   text-overflow: ellipsis;
@@ -5391,6 +5321,7 @@ main > :last-child {
   background: #ffffff;
   color: #222222;
   font-family: Tahoma, Arial, sans-serif;
+  font-size: var(--catalog-control-font-size);
   line-height: 1.35;
   text-align: right;
   transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
@@ -5453,19 +5384,16 @@ main > :last-child {
   pointer-events: none;
 }
 
-.catalog-grid--search {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
+.catalog-grid--search,
 .catalog-grid--listing {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
 .prd-name__cate {
   display: block;
   margin-bottom: 0.4rem;
   color: var(--color-sub);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 400;
   line-height: 1.4;
 }
@@ -5603,7 +5531,7 @@ main > :last-child {
 
 }
 
-@media screen and (min-width: 1441px) {
+@media screen and (min-width: 1201px) {
   .page-products .catalog-page,
   .page-searching .catalog-page {
     --catalog-sticky-top: var(--rtl-navbar-h);
@@ -5636,7 +5564,11 @@ main > :last-child {
 
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
+  .catalog-page {
+    --catalog-control-font-size: 1.6rem;
+  }
+
   .page-searching .catalog-pagination {
     --catalog-columns: 4;
   }
@@ -5664,12 +5596,13 @@ main > :last-child {
     border-inline-start: 0;
   }
 
-  .catalog-grid--search {
+  .catalog-grid--search,
+  .catalog-grid--listing {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .catalog-select .select2-selection--single .select2-selection__rendered {
-    font-size: 1.6rem;
+    font-size: var(--catalog-control-font-size);
   }
 }
 
@@ -5699,7 +5632,7 @@ main > :last-child {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .catalog-filters--search,
   .catalog-filters--listing {
     display: block;
@@ -5785,7 +5718,7 @@ main > :last-child {
     border-block-end: 1px solid var(--catalog-line);
     background: #ffffff;
     color: #333333;
-    font-size: 1.8rem;
+    font-size: var(--type-title-sm);
     font-weight: 700;
     text-align: right;
   }
@@ -5812,15 +5745,19 @@ main > :last-child {
 }
 
 @media screen and (max-width: 767px) {
+  .catalog-page {
+    --catalog-control-font-size: 1.5rem;
+  }
+
   .catalog-search__input,
   .catalog-select__control {
-    font-size: 1.5rem;
+    font-size: var(--catalog-control-font-size);
   }
 
   .catalog-select .select2-selection--single .select2-selection__rendered {
     padding-right: 1.6rem !important;
     padding-left: 6.4rem !important;
-    font-size: 1.5rem;
+    font-size: var(--catalog-control-font-size);
     height: 100%;
   }
 
@@ -5851,7 +5788,12 @@ main > :last-child {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .catalog-pagination {
+  /* Match the specificity of the desktop page rules so the two controls
+     really share the mobile row equally. */
+  .catalog-pagination,
+  .page-searching .catalog-pagination,
+  .page-products .catalog-pagination,
+  .blog-page .catalog-pagination {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -6009,9 +5951,9 @@ main > :last-child {
 .product-detail__section-title {
   margin-bottom: 1.8rem;
   color: var(--color-text);
-  font-size: clamp(2rem, 1.8vw, 2.8rem);
+  font-size: var(--type-heading);
   font-weight: 700;
-  line-height: 1.35;
+  line-height: var(--leading-title);
 }
 
 .product-detail__section-title:not(:first-child) {
@@ -6179,6 +6121,11 @@ main > :last-child {
   background: #21021f;
 }
 
+.product-story .content-detail > :not(.product-story__media) {
+  width: min(100%, 96rem);
+  margin-inline: auto;
+}
+
 .product-story__media img {
   width: 100%;
   height: 100%;
@@ -6215,8 +6162,7 @@ main > :last-child {
 }
 
 .product-related__title {
-  color: var(--color-text);
-  font-size: clamp(3rem, 3vw, 4.8rem);
+  color: var(--color-text);
   font-weight: 700;
   line-height: 1.3;
 }
@@ -6238,32 +6184,7 @@ main > :last-child {
   border-block-end: unset;
 }
 
-/* Heading and three cards on one row. A quarter for the heading leaves each card
-   at a quarter of the page as well -- the same width they already have between
-   901 and 1440, where the slider runs full width with four in view. Below 1441
-   the two stack again, which is why this is min-width. */
-@media screen and (min-width: 1441px) {
-  .product-related {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
-  }
-
-  .product-related__head {
-    display: flex;
-    align-items: center;
-    padding: clamp(3.2rem, 4vw, 6rem) clamp(2rem, 2.4vw, 4rem);
-    border-inline-end: 1px solid var(--product-detail-line);
-    text-align: right;
-  }
-
-  /* Side by side, that rule would run along the top of the slider only. The
-     section above already closes this edge with its own border-block-end. */
-  .product-related__slider {
-    border-block-start: 0;
-  }
-}
-
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .product-detail__title {
     min-height: 11rem;
   }
@@ -6376,7 +6297,7 @@ main > :last-child {
 /* Contact page: enquiry form beside the contact channels, then the map. */
 .contact-page {
   --contact-line: var(--color-line);
-  --page-gutter: clamp(2rem, 4vw, 8rem);
+  --page-gutter: var(--hd-tool-w);
   background: #ffffff;
 }
 
@@ -6492,7 +6413,7 @@ main > :last-child {
   grid-template-columns: 190px minmax(0, 1fr);
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .contact-form .hd-contact__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -6544,7 +6465,7 @@ main > :last-child {
 }
 
 .blog-list__title {
-  color: var(--color-text);
+  color: var(--color-text);
   font-weight: 700;
   line-height: 1.3;
 }
@@ -6579,12 +6500,12 @@ main > :last-child {
   padding: 0.7rem 1.6rem;
   background: var(--color-pri);
   color: #ffffff;
-  font-size: 1.4rem;
+  font-size: var(--type-meta);
   font-weight: 700;
   line-height: 1.3;
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .blog-page {
     --catalog-columns: 3;
   }
@@ -6606,6 +6527,10 @@ main > :last-child {
 
   .blog-list__head {
     padding: 2.8rem 1.6rem;
+  }
+
+  .blog-card__badge {
+    font-size: 1.2rem;
   }
 
 }
@@ -6796,7 +6721,7 @@ main > :last-child {
   border-block-start: 1px solid var(--color-line);
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .content-detail {
     font-size: 1.6rem;
     line-height: 1.85;
@@ -6843,7 +6768,7 @@ main > :last-child {
 /* Blog article: split hero, body copy and the shared news slider. */
 .blog-detail-page {
   --blog-detail-line: var(--color-line);
-  --page-gutter: clamp(2rem, 4vw, 8rem);
+  --page-gutter: var(--hd-tool-w);
   background: #ffffff;
 }
 
@@ -6903,8 +6828,9 @@ main > :last-child {
   align-items: center;
   gap: 0.8rem;
   color: var(--color-text);
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 700;
+  line-height: 1.5;
 }
 
 .blog-detail__meta-item img {
@@ -6934,6 +6860,11 @@ main > :last-child {
   line-height: 1.3;
 }
 
+.product-related__title,
+.blog-related__title {
+  line-height: 1.3;
+}
+
 /* Built like .product-related__slider: this rule separates the heading from the
    track when the two stack. The vertical dividers are not here -- they are
    painted on the track as a fixed overlay further down. No block-end on a slide
@@ -6953,7 +6884,7 @@ main > :last-child {
 
    --slides has to track the breakpoints in each slider's Swiper config, so the
    two ladders are set side by side below. They part company between 768 and
-   1440: the related blog track holds two cards there because blog.html's own
+   1200: the related blog track holds two cards there because blog.html's own
    grid drops to two over the same range, while related products stays denser. */
 .product-related__slider,
 .blog-related__slider {
@@ -6985,11 +6916,11 @@ main > :last-child {
   }
 }
 
-@media screen and (min-width: 1441px) {
-  /* The heading takes a quarter of the row here, so the track holds three. */
+@media screen and (min-width: 1201px) {
+  /* The heading occupies its own row, so the full-width tracks hold four. */
   .product-related__slider,
   .blog-related__slider {
-    --slides: 3;
+    --slides: 4;
   }
 }
 
@@ -7002,35 +6933,11 @@ main > :last-child {
   min-width: 0;
 }
 
-/* Heading and three cards on one row, the same split .product-related uses: a
-   quarter for the heading leaves each card at a quarter of the page. Below 1441
-   the two stack again. */
-@media screen and (min-width: 1441px) {
-  .blog-related {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
-  }
-
-  .blog-related__head {
-    display: flex;
-    align-items: center;
-    padding: clamp(3.2rem, 4vw, 6rem) clamp(2rem, 2.4vw, 4rem);
-    border-inline-end: 1px solid var(--blog-detail-line);
-    text-align: right;
-  }
-
-  /* Side by side, that rule would run along the top of the track only. The
-     article body above already closes this edge with its border-block-end. */
-  .blog-related__slider {
-    border-block-start: 0;
-  }
-}
-
 /* Both blog grids step down together. This has to sit after their own rules:
    the column counts are all plain class selectors, so a media query only wins by
    coming later in the file -- put it earlier and the four-column base overrides
    it at every width, which is what was happening. */
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   /* Two across from here: a quarter of a tablet is too narrow for the title. */
   .blog-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -7219,7 +7126,7 @@ main > :last-child {
   grid-template-columns: repeat(var(--brand-also-count, 2), minmax(0, 1fr));
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .brand-popup__panel {
     overflow-y: auto;
     grid-template-columns: minmax(0, 1fr);
@@ -7247,7 +7154,7 @@ main > :last-child {
 .awards-page {
   --awards-line: var(--color-line);
   --awards-sticky-top: var(--rtl-navbar-h);
-  --page-gutter: clamp(2rem, 4vw, 8rem);
+  --page-gutter: var(--hd-tool-w);
   background: #ffffff;
 }
 
@@ -7542,7 +7449,7 @@ main > :last-child {
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .award-card__btn {
     padding-inline: 1.2rem;
   }
@@ -7592,7 +7499,7 @@ main > :last-child {
 
 .activities-page {
   --activities-line: var(--color-line);
-  --page-gutter: clamp(2rem, 4vw, 8rem);
+  --page-gutter: var(--hd-tool-w);
   background: #ffffff;
 }
 
@@ -7603,8 +7510,8 @@ main > :last-child {
    lattice .cat-grid, .prd-grid, .card-grid, .blog-grid and .expo-grid all use.
 
    No top edge, though: the section carries no padding of its own, so the grid
-   begins directly under .page-banner__breadcrumb and borrows the rule that
-   already closes it. No start edge either -- see .ft-grid: every lattice divides
+   begins directly under .page-banner__media and borrows the rule that already
+   closes it. No start edge either -- see .ft-grid: every lattice divides
    the full width, or its marks drift off the ones above and below. */
 .activities-grid {
   display: grid;
@@ -7676,7 +7583,7 @@ main > :last-child {
 }
 
 /* Half and half, then one at a time -- the heading cell only gets roomier. */
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .activities-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -7704,7 +7611,7 @@ main > :last-child {
 .history-page {
   --hist-line: var(--color-line);
   --hist-bar-h: 6.4rem;
-  --page-gutter: clamp(2rem, 4vw, 8rem);
+  --page-gutter: var(--hd-tool-w);
   overflow: visible;
   background: #ffffff;
 }
@@ -7734,7 +7641,7 @@ main > :last-child {
 /* No inset here. The 0.8rem the cards elsewhere carry is the air inside a ruled
    cell; this is a full-height hero filling its half of the pin, so the padding
    only put a white margin round the photograph -- and, once the aspect-ratio
-   below takes over at 1440, measured that ratio on the border box and left the
+   below takes over at 1200, measured that ratio on the border box and left the
    picture at a ratio of its own. */
 .hist__shot {
   position: absolute;
@@ -7776,7 +7683,7 @@ main > :last-child {
   color: #ffffff;
   font-family: "Poppins", Arial, sans-serif;
   font-size: clamp(8rem, 11vw, 16rem);
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.02em;
   line-height: 0.9;
   opacity: 0;
@@ -7836,8 +7743,8 @@ main > :last-child {
 .hist__title {
   margin-bottom: 2.4rem;
   color: var(--color-text);
-  font-weight: 800;
-  line-height: 1.15;
+  font-weight: 700;
+  line-height: var(--leading-display);
 }
 
 .hist__desc {
@@ -7906,7 +7813,7 @@ main > :last-child {
   color: #ffffff;
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   /* Unpinned: photo and panel alternate down the page, paired by JS order. */
   .hist {
     height: auto;
@@ -8227,7 +8134,7 @@ main > :last-child {
   min-width: 0;
   min-height: var(--story-control-h);
   height: var(--story-control-h);
-  font-size: 1.4rem;
+  font-size: max(1.4rem, 14px);
 }
 
 .story-video.btn .txt {
@@ -8255,7 +8162,7 @@ main > :last-child {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .story-intro {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -8298,7 +8205,7 @@ main > :last-child {
   }
 
   .story-video.btn {
-    font-size: 1.2rem;
+    font-size: max(1.4rem, 14px);
   }
 }
 
@@ -8398,7 +8305,7 @@ main > :last-child {
 
 .leader-block__name,
 .leader-block__title {
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.2;
   text-transform: uppercase;
   color: var(--color-text);
@@ -8438,14 +8345,14 @@ main > :last-child {
   margin-top: clamp(2.8rem, 3.5vw, 4.8rem);
 }
 
-@media screen and (min-width: 1441px) {
+@media screen and (min-width: 1201px) {
   /* .main clips its overflow, which would kill the sticky panel. */
   .story-page {
     overflow: visible;
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .sec-leader {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -8581,7 +8488,7 @@ main > :last-child {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .process-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -8609,7 +8516,7 @@ main > :last-child {
 .sec-expo {
   --expo-line: var(--color-line);
   --expo-gap: 0.8rem;
-  --sec-gutter: clamp(2rem, 3.6vw, 11rem);
+  --sec-gutter: var(--hd-tool-w);
   width: 100%;
   background: #ffffff;
 }
@@ -8712,7 +8619,7 @@ main > :last-child {
 }
 
 /* Half and half: an exhibition runs over two rows of its own. */
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .expo-grid {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -8730,7 +8637,7 @@ main > :last-child {
    up past the logo in odd fairs and pushes it down past it in even ones, which
    is the swap. Bounded below as well as above: at one cell per row there is no
    corner to alternate, and leaving these on would only shuffle the column. */
-@media screen and (min-width: 768px) and (max-width: 1440px) {
+@media screen and (min-width: 768px) and (max-width: 1200px) {
   .expo-fair .expo-brand {
     order: 1;
   }
@@ -8765,7 +8672,7 @@ main > :last-child {
   --flow-line: var(--color-line);
   --flow-pad: clamp(2rem, 2.2vw, 3.6rem);
   --flow-num: clamp(4.4rem, 4.6vw, 6.4rem);
-  --sec-gutter: clamp(2rem, 3.6vw, 11rem);
+  --sec-gutter: var(--hd-tool-w);
   border-block-end: 1px solid var(--flow-line);
   background: #ffffff;
 }
@@ -8776,9 +8683,9 @@ main > :last-child {
 }
 
 .flow__title {
-  color: var(--color-text);
-  font-weight: 800;
-  line-height: 1.2;
+  color: var(--color-text);
+  font-weight: 700;
+  line-height: var(--leading-section);
 }
 
 .flow__desc {
@@ -8828,7 +8735,7 @@ main > :last-child {
   overflow: hidden;
 }
 
-/* 8px of white inside the frame, the inset .hd-mega__thumb already uses. Padding
+/* 8px of white inside the frame, the inset the mega thumb used to use. Padding
    on the figure would not show: an absolutely positioned box resolves its insets
    against the padding box, so the picture would cover the padding anyway. Width
    and height are stated outright as well, because an auto-width replaced element
@@ -8898,9 +8805,9 @@ main > :last-child {
   line-height: 1.7;
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .sec-flow {
-    --sec-gutter: clamp(1.8rem, 3.2vw, 3.6rem);
+    --sec-gutter: var(--hd-tool-w);
   }
 
   .flow__steps {
@@ -8948,7 +8855,7 @@ main > :last-child {
   }
 }
 
-@media screen and (min-width: 1441px) {
+@media screen and (min-width: 1201px) {
   /* .main clips its overflow, which would kill the pinned panel. */
   .service-page {
     overflow: visible;
@@ -8988,7 +8895,7 @@ main > :last-child {
   transform: translateX(calc((1 - var(--mile-progress, 0)) * 1216px - 608px));
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
 
   .mile-map {
     height: 72%;
@@ -9014,7 +8921,7 @@ main > :last-child {
    -- the container draws the start edges, each card closes its own end edges. */
 .sec-label {
   --grid-line: var(--color-line);
-  --sec-gutter: clamp(2rem, 3.6vw, 11rem);
+  --sec-gutter: var(--hd-tool-w);
   /* The shot height is the image band alone; .label-card__media adds the padding
      on top of it, so the picture keeps its size while the rule below it runs the
      full width of the cell. */
@@ -9103,9 +9010,9 @@ main > :last-child {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .sec-label {
-    --sec-gutter: clamp(1.8rem, 3.2vw, 3.6rem);
+    --sec-gutter: var(--hd-tool-w);
     --label-shot-h: 32rem;
   }
 }
@@ -9406,7 +9313,7 @@ main > :last-child {
   border-inline-end: 0;
 }
 
-@media screen and (min-width: 1441px) {
+@media screen and (min-width: 1201px) {
   .pkg-cell:nth-child(4n) {
     border-inline-end: 1px solid var(--pkg-line);
   }
@@ -9474,7 +9381,7 @@ main > :last-child {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .sec-pkg {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -9672,7 +9579,7 @@ main > :last-child {
 
 /* Below this the panel cannot pin -- .main clips its overflow again -- so the
    picture drops under the questions and takes a crop instead of a viewport. */
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .sec-faq {
     --faq-pad-inline: clamp(1.8rem, 3.2vw, 3.6rem);
   }
@@ -9718,7 +9625,7 @@ main > :last-child {
    these in step with the breakpoints in the matching module -- a stale entry
    here is worse than none, since the row then settles at one width and jumps to
    another. The two related sliders share a base and a top step but nothing in
-   between: products thickens twice on the way up, blog holds two until 1441. */
+   between: products thickens twice on the way up, blog holds two until 1201. */
 .swiper:not(.swiper-initialized) .swiper-slide {
   width: calc(100% / var(--swiper-spv, 1));
 }
@@ -9757,10 +9664,10 @@ main > :last-child {
   }
 }
 
-@media screen and (min-width: 1441px) {
+@media screen and (min-width: 1201px) {
   .productRelatedSliderJS,
   .blogRelatedSliderJS {
-    --swiper-spv: 3;
+    --swiper-spv: 4;
   }
   .pkg__slider--material,
   .pkg__slider--size {
@@ -9785,7 +9692,7 @@ main > :last-child {
   background: var(--color-cream);
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .leader-intro {
     position: relative;
   }
@@ -9816,7 +9723,7 @@ main > :last-child {
     border-inline-start: unset;
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .hd-filter {
     border-inline-end: unset !important;
   }
@@ -9829,7 +9736,7 @@ main > :last-child {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .catalog-filters__inner:has(.catalog-select.is-select2-open) {
     position: relative;
     z-index: 40;
@@ -9837,7 +9744,7 @@ main > :last-child {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .award-popup__panel {
     display: block;
     overflow-y: auto;
@@ -9960,8 +9867,7 @@ html {
   color: var(--color-pri);
 }
 
-.mobile-sub__thumb,
-.hd-mega__thumb {
+.mobile-sub__thumb {
   aspect-ratio: auto;
 }
 
@@ -9973,15 +9879,7 @@ html {
   object-fit: cover;
 }
 
-.hd-mega__thumb img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 19 / 15;
-  object-fit: cover;
-}
-
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .mobile {
     border-top: 1px solid var(--color-line);
   }
@@ -9995,7 +9893,7 @@ html {
   min-height: 0;
 }
 
-@media screen and (min-width: 1441px) {
+@media screen and (min-width: 1201px) {
   .blog-grid > .is-grid-filler:nth-child(5n + 1),
   .blog-grid > .is-grid-filler:nth-child(5n + 1) ~ .is-grid-filler {
     display: none;
@@ -10011,19 +9909,19 @@ html {
     display: none;
   }
 
-  .catalog-grid--listing > .is-grid-filler:nth-child(4n + 1),
-  .catalog-grid--listing > .is-grid-filler:nth-child(4n + 1) ~ .is-grid-filler {
+  .catalog-grid--listing > .is-grid-filler:nth-child(6n + 1),
+  .catalog-grid--listing > .is-grid-filler:nth-child(6n + 1) ~ .is-grid-filler {
     display: none;
   }
 
-  .catalog-grid--search > .is-grid-filler:nth-child(5n + 1),
-  .catalog-grid--search > .is-grid-filler:nth-child(5n + 1) ~ .is-grid-filler {
+  .catalog-grid--search > .is-grid-filler:nth-child(6n + 1),
+  .catalog-grid--search > .is-grid-filler:nth-child(6n + 1) ~ .is-grid-filler {
     display: none;
   }
 
 }
 
-@media screen and (min-width: 901px) and (max-width: 1440px) {
+@media screen and (min-width: 901px) and (max-width: 1200px) {
   .blog-grid > .is-grid-filler:nth-child(3n + 1),
   .blog-grid > .is-grid-filler:nth-child(3n + 1) ~ .is-grid-filler {
     display: none;
@@ -10039,7 +9937,7 @@ html {
 
 }
 
-@media screen and (min-width: 768px) and (max-width: 1440px) {
+@media screen and (min-width: 768px) and (max-width: 1200px) {
   .prd-grid > .is-grid-filler:nth-child(3n + 1),
   .prd-grid > .is-grid-filler:nth-child(3n + 1) ~ .is-grid-filler {
     display: none;
@@ -10057,9 +9955,9 @@ html {
 
 }
 
-@media screen and (min-width: 768px) and (max-width: 1440px) {
-  .catalog-grid--listing > .is-grid-filler:nth-child(2n + 1),
-  .catalog-grid--listing > .is-grid-filler:nth-child(2n + 1) ~ .is-grid-filler {
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+  .catalog-grid--listing > .is-grid-filler:nth-child(4n + 1),
+  .catalog-grid--listing > .is-grid-filler:nth-child(4n + 1) ~ .is-grid-filler {
     display: none;
   }
 
@@ -10093,7 +9991,7 @@ html {
 
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .hd-contact {
     height: calc(100dvh - var(--rtl-navbar-h) + var(--line-width));
     max-height: none;
@@ -10106,7 +10004,7 @@ html {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .hd-contact {
     overflow: hidden;
   }
@@ -10122,7 +10020,7 @@ html {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .page-products .catalog-page,
   .page-searching .catalog-page {
     --catalog-sticky-top: var(--rtl-navbar-h);
@@ -10161,7 +10059,7 @@ html {
   transform: scale(1.04);
 }
 
-/* Split the way .mile__aside / .faq__aside / .news__aside are: the outer element
+/* Split the way .mile__aside and .faq__aside are: the outer element
    is the column and stretches, so its rule runs the full height of the block,
    while this one pins. A sticky box that is itself the stretched grid item fills
    its row and never travels. */
@@ -10177,9 +10075,9 @@ html {
   font-family: Tahoma, Arial, sans-serif;
   font-size: 1.4rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   line-height: 1.3;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .blog-toc__list {
@@ -10306,7 +10204,7 @@ html {
 .blog-toc__sub-link {
   color: var(--color-des);
   font-family: Tahoma, Arial, sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   line-height: 1.55;
   text-decoration: none;
   transition: color 0.2s ease;
@@ -10319,7 +10217,7 @@ html {
   text-underline-position: under;
 }
 
-@media screen and (min-width: 1441px) {
+@media screen and (min-width: 1201px) {
   .blog-detail__content {
     /* 1 : 2 : 1 -- four units, the same four .ft-grid uses, so the rules at 75%
        and 25% carry straight down into the footer. Full bleed with no gap for
@@ -10358,7 +10256,12 @@ html {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
+  .blog-detail__content > .content-detail {
+    width: min(100%, 82rem);
+    margin-inline: auto;
+  }
+
   .blog-toc {
     margin-block-end: clamp(2.4rem, 4vw, 3.6rem);
   }
@@ -10406,7 +10309,7 @@ html {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1200px) {
   .hd-action-search__query {
     --search-btn-w: 5rem;
   }

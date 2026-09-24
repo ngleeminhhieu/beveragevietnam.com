@@ -18,12 +18,11 @@ export default function BlogRelatedModule() {
         enabled: true,
         onlyInViewport: true,
       },
-      // Two cards hold all the way to 1440, matching the two columns blog.html's
-      // own grid runs over the same range. Above that the heading takes a quarter
-      // of the row, so three in the track are each a quarter of the page too.
+      // The heading occupies its own row; the full-width track can show four on
+      // desktop while retaining two cards through tablet and mobile.
       breakpoints: {
-        1441: {
-          slidesPerView: 3,
+        1201: {
+          slidesPerView: 4,
         },
       },
       a11y: {

@@ -17,7 +17,6 @@ import BrandPopupModule from "./modules/BrandPopupModule.js";
 import AwardsModule from "./modules/AwardsModule.js";
 import HistoryModule from "./modules/HistoryModule.js";
 import StoryGalleryModule from "./modules/StoryGalleryModule.js";
-import TypeCycleModule from "./modules/TypeCycleModule.js";
 import PackagingModule from "./modules/PackagingModule.js";
 import FaqModule from "./modules/FaqModule.js";
 import ContentTableModule from "./modules/ContentTableModule.js";
@@ -47,7 +46,7 @@ const initHeroSlider = () => {
   const slideCount = slider.querySelectorAll(".swiper-slide").length;
   const autoplayDelay = 6000;
   const autoplayEnabled = slideCount > 1;
-  const desktopHero = window.matchMedia("(min-width: 1441px)");
+  const desktopHero = window.matchMedia("(min-width: 1201px)");
   let heroSwiper;
   let heroResizeFrame;
 
@@ -151,7 +150,6 @@ const init = () => {
     AwardsModule,
     HistoryModule,
     StoryGalleryModule,
-    TypeCycleModule,
     PackagingModule,
     FaqModule,
     ContentTableModule,

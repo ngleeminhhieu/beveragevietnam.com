@@ -8,7 +8,7 @@ const CatalogFiltersModule = () => {
       return;
     }
 
-    const mobile = window.matchMedia("(max-width: 1440px)");
+    const mobile = window.matchMedia("(max-width: 1200px)");
     const jquery = window.jQuery;
     let isOpen = false;
     let expandTimer;

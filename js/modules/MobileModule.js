@@ -4,7 +4,7 @@ export default function MobileModule() {
   const overlay = document.querySelector(".mobile-overlay");
   if (!mobile || !burgerButton || !overlay) return;
 
-  const desktop = window.matchMedia("(min-width: 1441px)");
+  const desktop = window.matchMedia("(min-width: 1201px)");
   let isOpen = false;
 
   const setState = (open) => {

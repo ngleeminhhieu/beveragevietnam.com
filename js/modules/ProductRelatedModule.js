@@ -18,18 +18,13 @@ export default function ProductRelatedModule() {
         enabled: true,
         onlyInViewport: true,
       },
-      // 1441 drops back to three: the slider gives a quarter of the row to the
-      // heading there, so three in view is the same card width as four across
-      // the full width below it.
+      // The heading occupies its own row, leaving the slider at full width.
       breakpoints: {
         768: {
           slidesPerView: 3,
         },
         901: {
           slidesPerView: 4,
-        },
-        1441: {
-          slidesPerView: 3,
         },
       },
       a11y: {
